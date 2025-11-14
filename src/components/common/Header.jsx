@@ -66,13 +66,13 @@ const Header = () => {
                     <li className="menu-item-has-children">
                       <Link to="#">Service</Link>
                       <ul className="sub-menu">
-                        <li><Link to="service.html">Renewable Energy
+                        <li><Link to="">Renewable Energy
 </Link></li>
-                        <li><Link to="service-2.html">
+                        <li><Link to="">
 Wind Generator</Link></li>
-                        <li><Link to="service-3.html">Solar Energy</Link></li>
-                        <li><Link to="service-details.html">Hydropower Energy</Link></li>
-                        <li><Link to="service-details.html">Eco Maintenance</Link></li>
+                        <li><Link to="">Solar Energy</Link></li>
+                        <li><Link to="">Hydropower Energy</Link></li>
+                        <li><Link to="">Eco Maintenance</Link></li>
                       </ul>
                     </li>
 
@@ -101,9 +101,9 @@ Wind Generator</Link></li>
                   <button type="button" className="icon-btn searchBoxToggler">
                     <i className="far fa-search"></i>
                   </button>
-                  <Link to="#" className="icon-btn sideMenuToggler d-none d-lg-block">
+                  {/* <Link to="#" className="icon-btn sideMenuToggler d-none d-lg-block">
                     <img src="assets/img/icon/grid.svg" alt="grid" />
-                  </Link>
+                  </Link> */}
                   <Link to="tel:+25862323258" className="th-btn th-icon">
                     <span
                       className="btn-text"
