@@ -66,20 +66,23 @@ const Header = () => {
                     <li className="menu-item-has-children">
                       <Link to="#">Service</Link>
                       <ul className="sub-menu">
-                        <li><Link to="service.html">Services - Style 1</Link></li>
-                        <li><Link to="service-2.html">Services - Style 2</Link></li>
-                        <li><Link to="service-3.html">Services - Style 3</Link></li>
-                        <li><Link to="service-details.html">Service Details</Link></li>
+                        <li><Link to="service.html">Renewable Energy
+</Link></li>
+                        <li><Link to="service-2.html">
+Wind Generator</Link></li>
+                        <li><Link to="service-3.html">Solar Energy</Link></li>
+                        <li><Link to="service-details.html">Hydropower Energy</Link></li>
+                        <li><Link to="service-details.html">Eco Maintenance</Link></li>
                       </ul>
                     </li>
 
-                    <li className="menu-item-has-children">
+                    {/* <li className="menu-item-has-children">
                       <Link to="#">Blog</Link>
                       <ul className="sub-menu">
                         <li><Link to="blog.html">Blog</Link></li>
                         <li><Link to="blog-details.html">Blog Details</Link></li>
                       </ul>
-                    </li>
+                    </li> */}
 
                     <li><Link to="contact.html">Contact</Link></li>
                   </ul>
