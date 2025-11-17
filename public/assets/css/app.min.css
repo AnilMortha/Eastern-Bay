@@ -10864,3 +10864,13 @@ button.swiper-pagination-bullet {
     width: 150px;
     height: 65px;
 }
+.headbtn{
+  background-color: #3e8eb3;
+  padding: 8px 22px;
+  border: none;
+  border-radius: 40px;
+  font-size: 13px;
+  a{
+    color: white;
+  }
+}

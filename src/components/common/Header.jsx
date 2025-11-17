@@ -47,7 +47,7 @@ const Header = () => {
             <div className="row align-items-center justify-content-between">
               <div className="col-auto">
                 <div className="header-logo">
-                  <Link to="home-solar-energy.html">
+                  <Link to="/">
                     <img src="/assets/img/eastern-baylogo.png" alt="Solar" />
                   </Link>
                 </div>
@@ -58,10 +58,10 @@ const Header = () => {
                 <nav className="main-menu style2 d-none d-lg-inline-block">
                   <ul>
                     <li>
-                      <Link to="home-solar-energy.html">Home</Link>
+                      <Link to="/">Home</Link>
                     </li>
 
-                    <li><Link to="about.html">About Us</Link></li>
+                    <li><Link to="/about">About Us</Link></li>
 
                     <li className="menu-item-has-children">
                       <Link to="#">Service</Link>
@@ -84,7 +84,13 @@ Wind Generator</Link></li>
                       </ul>
                     </li> */}
 
-                    <li><Link to="contact.html">Contact</Link></li>
+
+                    <li className="menu-item-has-children">
+                      <Link to="#">More</Link>
+                      <ul className="sub-menu">
+                        <li><Link to="/solar_calculator">Solar Calculator</Link></li>
+                      </ul>
+                    </li>
                   </ul>
                 </nav>
 
@@ -98,9 +104,11 @@ Wind Generator</Link></li>
 
               <div className="col-auto d-none d-xl-block">
                 <div className="header-button">
-                  <button type="button" className="icon-btn searchBoxToggler">
+                  
+                    <button className="headbtn"><Link to="/Appointment">Make an Appointment</Link></button>
+                  {/* <button type="button" className="icon-btn searchBoxToggler">
                     <i className="far fa-search"></i>
-                  </button>
+                  </button> */}
                   {/* <Link to="#" className="icon-btn sideMenuToggler d-none d-lg-block">
                     <img src="assets/img/icon/grid.svg" alt="grid" />
                   </Link> */}
