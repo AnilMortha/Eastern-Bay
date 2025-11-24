@@ -1,114 +1,76 @@
 import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade, Navigation, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
+import { useState, useEffect } from "react";
 
-const slides = [
-  {
-    bg: "/assets/img/hero/hero_bg_1_1.jpg",
-    title: (
-      <>
-        Solar <span className="hero-img"><img src="/assets/img/shape/hero-shape.svg" alt="" /></span> Power Energy
-      </>
-    ),
-  },
-  {
-    bg: "/assets/img/hero/hero_bg_1_2.jpg",
-    title: (
-      <>
-        Powering <span className="hero-img"><img src="/assets/img/shape/hero-shape.svg" alt="" /></span> Solar Energy
-      </>
-    ),
-  },
-  {
-    bg: "/assets/img/hero/hero_bg_1_3.jpg",
-    title: (
-      <>
-        Harvesting <span className="hero-img"><img src="/assets/img/shape/hero-shape.svg" alt="" /></span> Sun’s Power
-      </>
-    ),
-  },
-  {
-    bg: "/assets/img/hero/hero_bg_1_4.jpg",
-    title: (
-      <>
-        Sun <span className="hero-img"><img src="/assets/img/shape/hero-shape.svg" alt="" /></span> For Everyone
-      </>
-    ),
-  },
+const staticBgImage = '/assets/img/bg/solar-panel.jpg'; 
+
+const changingContent = [
+    {
+        subTitle: "Start generating your own clean power and lock in low rates for decades.",
+        title: "Cut Your Electric Bills upto 75%"
+    },
+    {
+        subTitle: "Maximize your federal tax credits and state rebates before they expire!",
+        title: "0% Down Solar Installation"
+    },
+    {
+        subTitle: "Switch to 100% clean solar energy and significantly reduce your carbon footprint.",
+        title: "Power Your Home. Protect the Planet."
+    }
 ];
 
 const Banner = () => {
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentIndex((prevIndex) => 
+                (prevIndex + 1) % changingContent.length
+            );
+        }, 5000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const currentSlide = changingContent[currentIndex];
+
   return (
     <section className="th-hero-wrapper hero-1" id="hero">
-      <Swiper
-        modules={[EffectFade, Autoplay]}
-        effect="fade"
-        loop
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
-        className="hero-slider-1"
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={index}>
             <div className="hero-inner">
-              <div
-                className="th-hero-bg"
-                style={{ backgroundImage: `url(${slide.bg})` }}
-              >
-                <div className="hero-shape-1">
-                  <img src="/assets/img/bg/hero_overlay_1.png" alt="" />
+                <div
+                    className="th-hero-bg"
+                    style={{ backgroundImage: `url(${staticBgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                >
+                    <div className="hero-shape-1">
+                        <img src="/assets/img/bg/hero_overlay_1.png" alt="" />
+                    </div>
                 </div>
-              </div>
-              <div className="container">
-                <div className="hero-style1 text-center text-lg-start">
-                  <span className="sub-title">Empower Your Future With</span>
-                  <h1 className="hero-title">{slide.title}</h1>
-                  <div className="btn-group justify-content-lg-start justify-content-center">
-                    <a href="/contact" className="th-btn style1 th-icon">
-                      <span className="btn-text" data-front="Get A Quote" data-back="Get A Quote"></span>
-                      <i className="fa-regular fa-arrow-right ms-2"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+                <div className="container">
+                    {/* The key on the div forces React to re-render the content, 
+                        which helps re-trigger CSS animations like fade-in. */}
+                    <div 
+                        className="hero-style1 text-center text-lg-start fade-in-animation"
+                        key={currentIndex} 
+                    >
+                        {/* 3. Accessing the currentSlide object */}
+                        <span className="sub-title">
+                            {currentSlide.subTitle} 
+                        </span> 
+                        <h1 className="hero-title">
+                            {currentSlide.title} 
+                        </h1>
 
-      {/* Bottom Section */}
-      <div className="hero-over-image">
-        <div className="container">
-          <div className="row gy-4">
-            <div className="col-xl-5 col-lg-4">
-              <div className="hero-image global-img">
-                <img src="/assets/img/hero/hero-img-1.jpg" alt="" />
-              </div>
-            </div>
-            <div className="col-xl-3 col-lg-4">
-              <div className="hero1-item">
-                <div className="box-icon">
-                  <img src="/assets/img/icon/doller.svg" alt="" />
+                        <div className="btn-group justify-content-lg-start justify-content-center">
+                            {/* CTA BUTTON CHANGED TO 'Know More' */}
+                            <a href="/about" className="th-btn style1 th-icon"> 
+                                <span className="btn-text" data-front="Know More" data-back="Know More"></span>
+                                <i className="fa-regular fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div className="box-content">
-                  <h3 className="box-title">Cost Savings</h3>
-                  <p className="box-text">
-                    Over time, solar energy can significantly lower electricity bills and even let users sell excess power back to the grid.
-                  </p>
-                </div>
-              </div>
             </div>
-            <div className="col-xl-4 col-lg-4">
-              <div className="hero-image global-img">
-                <img src="/assets/img/hero/hero-img-2.jpg" alt="" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+            {/* ... other sections if you decide to uncomment them ... */}
+        </section>
   );
 };
 

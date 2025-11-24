@@ -6,7 +6,6 @@ const ProjectSection = () => {
       id: 1,
       title: "Bay Area Solar Farm",
       img: "/assets/img/project/project_1_1.jpg",
-      link: "project-details.html",
       description:
         "We offer customized solar systems for homes of all sizes, helping households reduce electricity bills and environmental impact. Our team handles every step, from planning and permitting to installation and post-installation support.",
       stats: [
@@ -20,7 +19,6 @@ const ProjectSection = () => {
       id: 2,
       title: "Green Forest Solar Station",
       img: "/assets/img/project/project_1_2.jpg",
-      link: "project-details.html",
       description:
         "We offer customized solar systems for homes of all sizes, helping households reduce electricity bills and environmental impact. Our team handles every step, from planning and permitting to installation and post-installation support.",
       stats: [
@@ -34,7 +32,6 @@ const ProjectSection = () => {
       id: 3,
       title: "Wearing Protection Equipment",
       img: "/assets/img/project/project_1_3.jpg",
-      link: "project-details.html",
       description:
         "We offer customized solar systems for homes of all sizes, helping households reduce electricity bills and environmental impact. Our team handles every step, from planning and permitting to installation and post-installation support.",
       stats: [
@@ -48,13 +45,13 @@ const ProjectSection = () => {
 
   return (
     <section
-      className="project-area bg-white position-relative space"
+      className="project-area bg-white position-relative space mt-5"
       id="project-sec"
       style={{ backgroundImage: "url('/assets/img/bg/project_bg_1.jpg')" }}
     >
       <div className="container">
-        <div className="row justify-content-lg-between justify-content-center align-items-center">
-          <div className="col-lg-4">
+        <div className="row">
+          <div className="col-12">
             <div className="title-area text-center text-lg-start">
               <span className="sub-title">Case Study</span>
               <h2 className="sec-title text-white">Our Latest Case Studies</h2>
@@ -62,19 +59,6 @@ const ProjectSection = () => {
                 We offer customized solar systems for homes of all sizes,
                 helping households reduce electricity bills.
               </p>
-            </div>
-          </div>
-
-          <div className="col-auto">
-            <div className="sec-btn">
-              <a href="project.html" className="th-btn style1 th-icon">
-                <span
-                  className="btn-text"
-                  data-back="View All Case Study"
-                  data-front="View All Case Study"
-                ></span>
-                <i className="fa-regular fa-arrow-right ms-2"></i>
-              </a>
             </div>
           </div>
         </div>

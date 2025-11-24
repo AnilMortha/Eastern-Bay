@@ -5,14 +5,14 @@ const FAQSection = () => {
     <div className="overflow-hidden bg-smoke2" id="faq-sec">
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-xl-7">
+          <div className="col-xl-7 my-50">
             <div className="faq-image th-parallax">
               <img src="assets/img/normal/faq-image.jpg" alt="" />
             </div>
           </div>
-          <div className="col-xl-5 mt-35 mt-xl-0">
+          <div className="col-xl-5 my-35 mt-xl-0">
             <div className="faq-area">
-              <div className="title-area pe-xxl-5 me-xxl-5">
+              <div className="title-area">
                 <span className="sub-title">FAQ’S</span>
                 <h2 className="sec-title">Have Any Questions?</h2>
               </div>

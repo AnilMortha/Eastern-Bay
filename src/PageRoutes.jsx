@@ -12,6 +12,8 @@ import FAQSection from './components/Pages/FAQSection'
 import RequestQuote from './components/Pages/RequestQuote'
 import BlogSection from './components/Pages/BlogSection'
 import Home from './components/Home/Home'
+import OffGrid from './components/GridSolutions/OffGrid'
+import OnGrid from './components/GridSolutions/OnGrid'
 import Places from './components/Pages/Places'
 import SolarCalculator from './components/Pages/SolarCalculator'
 import AboutUsDetailPage from './components/Pages/AboutUsDetailPage'
@@ -27,6 +29,8 @@ const PageRoutes = () => {
         <Route path="/solar_calculator" element={<SolarCalculator/>}/>
         <Route path='/about' element={<AboutUsDetailPage/>}/>
         <Route path="/Appointment" element={<Appointment/>}/>
+        <Route path="/OffGridSolar" element={<OffGrid/>}/>
+        <Route path="/OnGridSolar" element={<OnGrid/>}/>
       </Routes>
 
     </div>

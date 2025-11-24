@@ -1,5 +1,5 @@
 import React from "react";
-
+import {Link} from "react-router-dom";
 const Footer = () => {
   return (
     <footer
@@ -14,9 +14,9 @@ const Footer = () => {
               <div className="widget footer-widget">
                 <div className="th-widget-about">
                   <div className="about-logo">
-                    <a href="index.html">
+                    <Link to="/">
                       <img src="assets/img/eastern-baylogo.png" alt="solar" style={{width:"190px"}} />
-                    </a>
+                    </Link>
                   </div>
                   <p className="about-text">
                     Solar energy is renewable and inexhaustible, making it a
@@ -47,11 +47,11 @@ const Footer = () => {
                 <h3 className="widget_title">Useful Links</h3>
                 <div className="menu-all-pages-container">
                   <ul className="menu">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="service.html">Services</a></li>
-                    <li><a href="project.html">Projects</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><Link to="/about">About Us</Link></li>
+                    <li><Link to="/OffGridSolar">Off-Grid</Link></li>
+                    <li><Link to="">On-Grid</Link></li>
+                    <li><Link to="">Blog</Link></li>
+                    <li><Link to="">Contact Us</Link></li>
                   </ul>
                 </div>
               </div>
@@ -80,7 +80,7 @@ const Footer = () => {
                 <div className="th-widget-about">
                   <h4 className="footer-info-title">Address Location</h4>
                   <p className="footer-info">
-                    <i className="fas fa-map-marker-alt"></i> Orlando City, USA
+                    <i className="fas fa-map-marker-alt"></i> Kakinada
                   </p>
 
                   <h4 className="footer-info-title">Phone Number</h4>
@@ -88,7 +88,7 @@ const Footer = () => {
                     <i className="fa-sharp fa-solid fa-phone"></i>
                     <span>
                       <a className="text-inherit" href="tel:+19524357106">
-                        +1 952-435-7106
+                        +91 9524357106
                       </a>
                     </span>
                   </p>

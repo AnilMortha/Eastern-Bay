@@ -137,7 +137,8 @@ const SolarCalculator = () => {
               fontSize: '28px',
               fontWeight: '700'
             }}>
-              🌞 Solar System Calculator
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 36 36"><path fill="#FFAC33" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle cx="18" cy="18" r="10" fill="#FFAC33"/></svg>
+              &nbsp; Solar System Calculator
             </h1>
             <p style={{
               color: '#64748b',
@@ -157,7 +158,7 @@ const SolarCalculator = () => {
               color: '#374151',
               fontSize: '15px'
             }}>
-              💰 Monthly Electricity Bill (₹)
+               Monthly Electricity Bill (₹)
             </label>
             <input
               type="number"
@@ -195,7 +196,7 @@ const SolarCalculator = () => {
               color: '#374151',
               fontSize: '15px'
             }}>
-              🏠 Available Roof Area (sq meters) - Optional
+             Available Roof Area (sq meters) - Optional
             </label>
             <input
               type="number"
@@ -231,7 +232,7 @@ const SolarCalculator = () => {
               color: '#374151',
               fontSize: '15px'
             }}>
-              📍 Location
+             Location
             </label>
             <select
               name="location"
@@ -263,7 +264,7 @@ const SolarCalculator = () => {
               color: '#374151',
               fontSize: '15px'
             }}>
-              🔌 Appliance Usage Level
+             Appliance Usage Level
             </label>
             <select
               name="applianceUsage"
@@ -392,7 +393,7 @@ const SolarCalculator = () => {
 
               {/* Cost Breakdown */}
               <div style={{ marginBottom: '20px' }}>
-                <h3 style={{ color: '#374151', marginBottom: '15px' }}>💰 Cost Breakdown</h3>
+                <h3 style={{ color: '#374151', marginBottom: '15px' }}> Cost Breakdown</h3>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <span>System Cost:</span>
                   <span style={{ fontWeight: '600' }}>₹{results.systemCost.toLocaleString()}</span>
@@ -418,7 +419,7 @@ const SolarCalculator = () => {
 
               {/* Savings */}
               <div style={{ marginBottom: '20px' }}>
-                <h3 style={{ color: '#374151', marginBottom: '15px' }}>💵 Annual Savings</h3>
+                <h3 style={{ color: '#374151', marginBottom: '15px' }}> Annual Savings</h3>
                 <div style={{ 
                   background: '#f0f9ff', 
                   padding: '15px', 
@@ -436,7 +437,7 @@ const SolarCalculator = () => {
 
               {/* Environmental Impact */}
               <div style={{ marginBottom: '20px' }}>
-                <h3 style={{ color: '#374151', marginBottom: '15px' }}>🌿 Environmental Impact</h3>
+                <h3 style={{ color: '#374151', marginBottom: '15px' }}> Environmental Impact</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   <div style={{ 
                     background: '#f0fdf4', 
@@ -473,7 +474,7 @@ const SolarCalculator = () => {
                 border: '1px solid #fcd34d'
               }}>
                 <div style={{ fontSize: '14px', color: '#92400e', fontWeight: '600', marginBottom: '5px' }}>
-                  📋 Additional Recommendations
+                   Additional Recommendations
                 </div>
                 <div style={{ fontSize: '13px', color: '#92400e' }}>
                   • Required Roof Area: {results.requiredRoofArea} sq meters<br/>
@@ -504,7 +505,7 @@ const SolarCalculator = () => {
                 e.target.style.boxShadow = 'none';
               }}
               >
-                📞 Contact for Free Consultation
+                 Contact for Free Consultation
               </button>
             </div>
           ) : (
@@ -513,7 +514,38 @@ const SolarCalculator = () => {
               color: '#64748b',
               padding: '40px'
             }}>
-              <div style={{ fontSize: '64px', marginBottom: '20px' }}>☀️</div>
+              <div style={{ fontSize: '64px', marginBottom: '20px' }}>
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" aria-hidden="true" role="img">
+  <title>Solar Calculator</title>
+  <rect x="2" y="3" width="15" height="20" rx="2" fill="#f3f4f6" stroke="#e5e7eb" />
+  <rect x="4" y="5.2" width="10" height="3" rx="0.5" fill="#111827" opacity="0.92"/>
+  <g fill="#111827" opacity="0.9">
+    <circle cx="6.5" cy="11.5" r="0.8" />
+    <circle cx="9.5" cy="11.5" r="0.8" />
+    <circle cx="12.5" cy="11.5" r="0.8" />
+    <circle cx="6.5" cy="14.5" r="0.8" />
+    <circle cx="9.5" cy="14.5" r="0.8" />
+    <circle cx="12.5" cy="14.5" r="0.8" />
+    <circle cx="6.5" cy="17.5" r="0.8" />
+    <circle cx="9.5" cy="17.5" r="0.8" />
+    <circle cx="12.5" cy="17.5" r="0.8" />
+    <rect x="6" y="19.8" width="7" height="1.6" rx="0.4" />
+  </g>
+  <g transform="translate(19,6)">
+    <circle cx="0" cy="0" r="3" fill="#FFC857" />
+    <g stroke="#FF9F1C" stroke-width="0.8">
+      <path d="M0-4.4 L0-6" />
+      <path d="M0 4.4 L0 6" />
+      <path d="M4.4 0 L6 0" />
+      <path d="M-4.4 0 L-6 0" />
+      <path d="M3.1 -3.1 L4.3 -4.3" />
+      <path d="M-3.1 3.1 L-4.3 4.3" />
+      <path d="M3.1 3.1 L4.3 4.3" />
+      <path d="M-3.1 -3.1 L-4.3 -4.3" />
+    </g>
+  </g>
+</svg>
+</div>
               <h3 style={{ color: '#374151', marginBottom: '10px' }}>Solar Calculator</h3>
               <p>Enter your details to calculate perfect solar system</p>
             </div>

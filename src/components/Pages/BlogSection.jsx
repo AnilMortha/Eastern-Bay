@@ -88,10 +88,10 @@ const BlogSection = () => {
                       </a>
                     </div>
                     <h3 className="box-title">
-                      <a href="blog-details.html">{blog.title}</a>
+                      <a href="">{blog.title}</a>
                     </h3>
                     <a
-                      href="blog-details.html"
+                      href=""
                       className="th-btn border-btn th-icon text-uppercase fw-semibold"
                     >
                       <span

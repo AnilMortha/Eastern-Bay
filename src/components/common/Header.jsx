@@ -1,50 +1,52 @@
-import React from "react";
-import { Link } from "react-router-dom"; 
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
+  const [open, setOpen] = useState(false);
+
+  const toggle = () => {
+    setOpen(!open);
+  };
+
   return (
     <header className="th-header header-layout1">
-      {/* Header Top */}
-      <div className="header-top">
-        <div className="container">
-          <div className="row justify-content-center justify-content-md-between align-items-center">
-            <div className="col-auto d-none d-md-block">
-              <div className="header-links">
-                <ul>
-                  <li className="d-none d-xl-inline-block">
-                    <i className="fa-light fa-clock"></i>
-                    <span>Mon - Fri 8:00 - 18:00 / Sunday 8:00 - 14:00</span>
-                  </li>
-                  <li>
-                    <i className="fa-sharp fa-regular fa-location-dot"></i>
-                    <span>12 Division Park, SKY 12546. Berlin</span>
-                  </li>
-                  <li>
-                    <i className="fa-regular fa-envelope"></i>
-                    <Link to="mailto:help@Solar.com">help@Solar.com</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-auto">
-              <div className="social-links">
-                <span className="social-title">Follow Us On:</span>
-                <Link to="https://www.facebook.com/"><i className="fab fa-facebook-f"></i></Link>
-                <Link to="https://www.twitter.com/"><i className="fab fa-twitter"></i></Link>
-                <Link to="https://www.linkedin.com/"><i className="fab fa-linkedin-in"></i></Link>
-                <Link to="https://www.instagram.com/"><i className="fab fa-instagram"></i></Link>
-                <Link to="https://www.youtube.com/"><i className="fab fa-youtube"></i></Link>
-              </div>
-            </div>
-          </div>
+
+      {/* ===== Overlay ===== */}
+      <div
+        className={`mobile-overlay ${open ? "show" : ""}`}
+        onClick={toggle}
+      ></div>
+
+      {/* ===== Mobile Side Menu ===== */}
+      <div className={`mobile-menu ${open ? "open" : ""}`}>
+        <div className="mobile-header">
+          <button className="close-btn" onClick={toggle}>
+            <i className="far fa-times"></i>
+          </button>
         </div>
+
+        <nav className="mobile-nav">
+          <ul>
+            <li><Link to="/" onClick={toggle}>Home</Link></li>
+            <li><Link to="/about" onClick={toggle}>About Us</Link></li>
+            <li><Link to="/Places" onClick={toggle}>Locations</Link></li>
+
+            <li className="menu-item-has-children">
+              <Link to="#">More</Link>
+              <ul className="sub-menu">
+                <li><Link to="/solar_calculator" onClick={toggle}>Solar Calculator</Link></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
       </div>
 
-      {/* Sticky Wrapper */}
+      {/* ===== Desktop Header ===== */}
       <div className="sticky-wrapper">
         <div className="menu-area">
           <div className="container-fiuld">
             <div className="row align-items-center justify-content-between">
+              
               <div className="col-auto">
                 <div className="header-logo">
                   <Link to="/">
@@ -53,38 +55,26 @@ const Header = () => {
                 </div>
               </div>
 
-              <div className="col-auto me-xl-auto">
-                {/* Navigation Menu */}
-                <nav className="main-menu style2 d-none d-lg-inline-block">
+              {/* Desktop Menu */}
+              <div className="col-auto d-none d-lg-block">
+                <nav className="main-menu style2">
                   <ul>
-                    <li>
-                      <Link to="/">Home</Link>
-                    </li>
-
-                    <li><Link to="/about">About Us</Link></li>
-
                     <li className="menu-item-has-children">
-                      <Link to="#">Service</Link>
+                      <Link to="#">Our Offerings</Link>
                       <ul className="sub-menu">
-                        <li><Link to="">Renewable Energy
-</Link></li>
-                        <li><Link to="">
-Wind Generator</Link></li>
-                        <li><Link to="">Solar Energy</Link></li>
-                        <li><Link to="">Hydropower Energy</Link></li>
-                        <li><Link to="">Eco Maintenance</Link></li>
+                        <li><Link to="/solar_calculator">Home</Link></li>
+                        <li><Link to="/solar_calculator">Commercial</Link></li>
+                        <li><Link to="/solar_calculator">Housing Societies</Link></li>
                       </ul>
                     </li>
-
-                    {/* <li className="menu-item-has-children">
-                      <Link to="#">Blog</Link>
+                    <li className="menu-item-has-children">
+                      <Link to="#">Solar Solutions</Link>
                       <ul className="sub-menu">
-                        <li><Link to="blog.html">Blog</Link></li>
-                        <li><Link to="blog-details.html">Blog Details</Link></li>
+                        <li><Link to="/OffGridSolar">Off-Grid</Link></li>
+                        <li><Link to="/OnGridSolar">On-Grid</Link></li>
                       </ul>
-                    </li> */}
-
-
+                    </li>
+                    <li><Link to="/Places">Locations</Link></li>
                     <li className="menu-item-has-children">
                       <Link to="#">More</Link>
                       <ul className="sub-menu">
@@ -93,39 +83,26 @@ Wind Generator</Link></li>
                     </li>
                   </ul>
                 </nav>
+              </div>
 
-                {/* Mobile Menu Button */}
-                <div className="header-button">
-                  <button type="button" className="th-menu-toggle d-inline-block d-lg-none">
-                    <i className="far fa-bars"></i>
-                  </button>
-                </div>
+              {/* Mobile Menu Button */}
+              <div className="col-auto d-lg-none">
+                <button className="mobile-toggle-btn" onClick={toggle}>
+                  <i className="far fa-bars"></i>
+                </button>
               </div>
 
               <div className="col-auto d-none d-xl-block">
-                <div className="header-button">
-                  
-                    <button className="headbtn"><Link to="/Appointment">Make an Appointment</Link></button>
-                  {/* <button type="button" className="icon-btn searchBoxToggler">
-                    <i className="far fa-search"></i>
-                  </button> */}
-                  {/* <Link to="#" className="icon-btn sideMenuToggler d-none d-lg-block">
-                    <img src="assets/img/icon/grid.svg" alt="grid" />
-                  </Link> */}
-                  <Link to="tel:+25862323258" className="th-btn th-icon">
-                    <span
-                      className="btn-text"
-                      data-back="Call For Help Us: +258 6232 3258 "
-                      data-front="Call For Help Us: +258 6232 3258"
-                    ></span>
-                  </Link>
-                </div>
+                <button className="headbtn">
+                  <Link to="/Appointment">Make an Appointment</Link>
+                </button>
               </div>
+
             </div>
           </div>
-          <div className="logo-bg" data-mask-src="assets/img/logo_bg_mask.png"></div>
         </div>
       </div>
+
     </header>
   );
 };
