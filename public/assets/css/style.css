@@ -6488,7 +6488,8 @@ ol.widget_recent_comments,
   text-transform: capitalize;
 }
 .main-menu ul.sub-menu li a:before {
-  content: "";
+  /* content: ""; */
+  content: "\f5ba";
   position: absolute;
   top: 8px;
   left: 0;
@@ -25785,3 +25786,5 @@ span.select2-selection.select2-selection--single:focus {
   padding:0;
   margin:0;
 }}
+
+

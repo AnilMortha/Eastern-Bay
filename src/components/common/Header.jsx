@@ -62,9 +62,9 @@ const Header = () => {
                     <li className="menu-item-has-children">
                       <Link to="#">Our Offerings</Link>
                       <ul className="sub-menu">
-                        <li><Link to="/solar_calculator">Home</Link></li>
-                        <li><Link to="/solar_calculator">Commercial</Link></li>
-                        <li><Link to="/solar_calculator">Housing Societies</Link></li>
+                        <li><Link to="/Home">Home</Link></li>
+                        <li><Link to="/Commercial">Commercial</Link></li>
+                        <li><Link to="/Housing">Housing Societies</Link></li>
                       </ul>
                     </li>
                     <li className="menu-item-has-children">
