@@ -164,7 +164,7 @@ const OnGrid = () => {
           <p className="mb-4">
             Contact us for a free site visit, pricing, and solar savings calculation.
           </p>
-          <a href="/contact" className="th-btn black-btn th-icon">
+          <a href="/Appointment" className="th-btn black-btn th-icon">
             <span className="btn-text" data-front="Get Free Quote" data-back="Get Free Quote"></span>
           </a>
         </div>

@@ -122,7 +122,7 @@ const AboutUsDetailPage = () => {
               Let us help you find the perfect solar solution for your needs.
             </p>
             <a
-              href="/contact"
+              href="/Appointment"
               className="th-btn black-btn th-icon bg-white text-dark mt-3"
             >
               Contact Us

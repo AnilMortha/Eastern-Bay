@@ -178,7 +178,7 @@ const OffGrid = () => {
       <section className="text-white text-center py-5" style={{background:'#c1c1ff'}}>
         <h2 className="fw-bold mb-3">Switch To Reliable Off-Grid Solar</h2>
         <p className="mb-4">Get a custom quote based on your power usage.</p>
-        <a href="/contact" className="th-btn black-btn th-icon bg-white text-dark px-4 py-2 rounded">
+        <a href="/Appointment" className="th-btn black-btn th-icon bg-white text-dark px-4 py-2 rounded">
           Contact Us
         </a>
       </section>
