@@ -1,403 +1,840 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-  faHome, 
-  faBuilding, 
-  faCity, 
-  faSun, 
-  faBolt, 
-  faMapMarkerAlt,
-  faCalculator,
-  faInfoCircle,
-  faBars,
-  faTimes,
-  faCalendarCheck
-} from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
-  const [open, setOpen] = useState(false);
-  const [mobileSubmenu, setMobileSubmenu] = useState(null);
-  const [desktopSubmenu, setDesktopSubmenu] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
 
-  const toggle = () => {
-    setOpen(!open);
-    setMobileSubmenu(null);
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setActiveSubmenu(null);
   };
 
-  const toggleMobileSubmenu = (menu) => {
-    setMobileSubmenu(mobileSubmenu === menu ? null : menu);
+  const toggleSubmenu = (menu) => {
+    setActiveSubmenu(activeSubmenu === menu ? null : menu);
   };
 
-  const toggleDesktopSubmenu = (menu) => {
-    setDesktopSubmenu(desktopSubmenu === menu ? null : menu);
+  // ===== CUSTOM SOLAR SVG ICONS =====
+  const solarIcons = {
+    home: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M3 9.5L12 4L21 9.5V20H3V9.5Z" stroke="#FF9500" strokeWidth="1.5" fill="none"/>
+        <path d="M8 13H16V20H8V13Z" stroke="#FF9500" strokeWidth="1.5" fill="none"/>
+      </svg>
+    ),
+    about: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="9" stroke="#FF9500" strokeWidth="1.5" fill="none"/>
+        <path d="M12 8V12" stroke="#FF9500" strokeWidth="1.5"/>
+        <circle cx="12" cy="16" r="0.5" fill="#FF9500"/>
+      </svg>
+    ),
+    location: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2C8.13 2 5 5.13 5 9C5 12.87 12 22 12 22C12 22 19 12.87 19 9C19 5.13 15.87 2 12 2Z" stroke="#FF9500" strokeWidth="1.5" fill="none"/>
+        <circle cx="12" cy="9" r="2.5" stroke="#FF9500" strokeWidth="1.5" fill="none"/>
+      </svg>
+    ),
+    calculator: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <rect x="4" y="2" width="16" height="20" rx="2" stroke="#FF9500" strokeWidth="1.5" fill="none"/>
+        <path d="M8 6H16" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M8 10H10" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M14 10H16" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M8 14H10" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M14 14H16" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M8 18H10" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M14 18H16" stroke="#FF9500" strokeWidth="1.5"/>
+      </svg>
+    ),
+    sun: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="4" stroke="#FF9500" strokeWidth="1.5" fill="none"/>
+        <path d="M12 2V4" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M12 20V22" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M4 12H2" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M22 12H20" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M19.07 4.93L17.66 6.34" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M6.34 17.66L4.93 19.07" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M19.07 19.07L17.66 17.66" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M6.34 6.34L4.93 4.93" stroke="#FF9500" strokeWidth="1.5"/>
+      </svg>
+    ),
+    bolt: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="#FF9500" strokeWidth="1.5" fill="none"/>
+      </svg>
+    ),
+    building: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <rect x="4" y="8" width="16" height="12" stroke="#FF9500" strokeWidth="1.5" fill="none"/>
+        <path d="M8 12H10" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M14 12H16" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M8 16H10" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M14 16H16" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M12 4V8" stroke="#FF9500" strokeWidth="1.5"/>
+      </svg>
+    ),
+    calendar: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <rect x="3" y="4" width="18" height="18" rx="2" stroke="white" strokeWidth="1.5" fill="none"/>
+        <path d="M8 2V6" stroke="white" strokeWidth="1.5"/>
+        <path d="M16 2V6" stroke="white" strokeWidth="1.5"/>
+        <path d="M3 10H21" stroke="white" strokeWidth="1.5"/>
+        <circle cx="12" cy="15" r="1" fill="white"/>
+        <circle cx="16" cy="15" r="1" fill="white"/>
+        <circle cx="8" cy="15" r="1" fill="white"/>
+      </svg>
+    ),
+    menu: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M4 6H20" stroke="#1e293b" strokeWidth="1.5"/>
+        <path d="M4 12H20" stroke="#1e293b" strokeWidth="1.5"/>
+        <path d="M4 18H20" stroke="#1e293b" strokeWidth="1.5"/>
+      </svg>
+    ),
+    close: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M18 6L6 18" stroke="#1e293b" strokeWidth="1.5"/>
+        <path d="M6 6L18 18" stroke="#1e293b" strokeWidth="1.5"/>
+      </svg>
+    ),
+    arrowRight: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12H19" stroke="white" strokeWidth="1.5"/>
+        <path d="M14 7L19 12L14 17" stroke="white" strokeWidth="1.5"/>
+      </svg>
+    ),
+    arrowDown: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path d="M12 5V19" stroke="#FF9500" strokeWidth="1.5"/>
+        <path d="M7 14L12 19L17 14" stroke="#FF9500" strokeWidth="1.5"/>
+      </svg>
+    ),
+    panel: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <rect x="4" y="4" width="16" height="16" rx="1" stroke="#FF9500" strokeWidth="1.2"/>
+        <path d="M4 8H20" stroke="#FF9500" strokeWidth="1.2"/>
+        <path d="M4 12H20" stroke="#FF9500" strokeWidth="1.2"/>
+        <path d="M4 16H20" stroke="#FF9500" strokeWidth="1.2"/>
+      </svg>
+    ),
+    battery: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <rect x="6" y="4" width="12" height="16" rx="2" stroke="#FF9500" strokeWidth="1.2"/>
+        <rect x="10" y="2" width="4" height="2" stroke="#FF9500" strokeWidth="1.2"/>
+      </svg>
+    )
   };
+
+  // Scrolling offer messages
+  const tickerOffers = [
+    "⚡ FREE Site Inspection - Book Now!",
+    "🎉 0% EMI Options Available on All Systems",
+    "🏆 NEDCAP Approved Channel Partner",
+    "🔧 10 Years Comprehensive Warranty",
+    "💰 Save up to ₹50,000 with Government Subsidy",
+    "☀️ 25 Years Panel Performance Warranty"
+  ];
 
   return (
-    <header className="th-header header-layout1 clean-header">
+    <header className="ebz__master">
+      
+      {/* ===== SCROLLING TICKER ===== */}
+      <div className="ebz__ticker">
+        <div className="ebz__tickerTrack">
+          {tickerOffers.map((offer, index) => (
+            <span key={index} className="ebz__tickerItem">
+              <span className="ebz__tickerBullet">●</span>
+              {offer}
+            </span>
+          ))}
+          {tickerOffers.map((offer, index) => (
+            <span key={`dup-${index}`} className="ebz__tickerItem">
+              <span className="ebz__tickerBullet">●</span>
+              {offer}
+            </span>
+          ))}
+        </div>
+      </div>
 
-      {/* ===== Overlay ===== */}
-      <div
-        className={`mobile-overlay ${open ? "show" : ""}`}
-        onClick={toggle}
-      ></div>
+      {/* ===== MAIN HEADER BAR - FIXED, NO SCROLL EFFECT ===== */}
+      <div className="ebz__bar">
+        <div className="ebz__container">
+          
+          {/* Logo */}
+          <div className="ebz__logoWrap">
+            <Link to="/">
+              <img src="/assets/img/eastern-baylogo.png" alt="EasternBey Solar" className="ebz__logoImg" />
+            </Link>
+          </div>
 
-      {/* ===== Mobile Side Menu ===== */}
-      <div className={`mobile-menu ${open ? "open" : ""}`}>
-        <div className="mobile-header">
-          <button className="close-btn" onClick={toggle}>
-            <FontAwesomeIcon icon={faTimes} />
+          {/* Desktop Navigation */}
+          <nav className="ebz__nav">
+            <ul className="ebz__navList">
+              
+              {/* Offerings */}
+              <li className="ebz__navItem ebz__navItem--hasChild">
+                <span className="ebz__navLink">
+                  <span className="ebz__navText">Our Offerings</span>
+                  <span className="ebz__navArrow">{solarIcons.arrowDown}</span>
+                </span>
+                <div className="ebz__drop">
+                  <Link to="/solar_calculator" className="ebz__dropItem">
+                    <span className="ebz__dropIcon">{solarIcons.building}</span>
+                    <span className="ebz__dropText">Residential</span>
+                  </Link>
+                  <Link to="/solar_calculator" className="ebz__dropItem">
+                    <span className="ebz__dropIcon">{solarIcons.building}</span>
+                    <span className="ebz__dropText">Commercial</span>
+                  </Link>
+                  <Link to="/solar_calculator" className="ebz__dropItem">
+                    <span className="ebz__dropIcon">{solarIcons.building}</span>
+                    <span className="ebz__dropText">Industrial</span>
+                  </Link>
+                </div>
+              </li>
+
+              {/* Solar Solutions */}
+              <li className="ebz__navItem ebz__navItem--hasChild">
+                <span className="ebz__navLink">
+                  <span className="ebz__navIcon">{solarIcons.sun}</span>
+                  <span className="ebz__navText">Solutions</span>
+                  <span className="ebz__navArrow">{solarIcons.arrowDown}</span>
+                </span>
+                <div className="ebz__drop">
+                  <Link to="/OffGridSolar" className="ebz__dropItem">
+                    <span className="ebz__dropIcon">{solarIcons.battery}</span>
+                    <span className="ebz__dropText">Off-Grid</span>
+                  </Link>
+                  <Link to="/OnGridSolar" className="ebz__dropItem">
+                    <span className="ebz__dropIcon">{solarIcons.bolt}</span>
+                    <span className="ebz__dropText">On-Grid</span>
+                  </Link>
+                  <Link to="/HybridSolar" className="ebz__dropItem">
+                    <span className="ebz__dropIcon">{solarIcons.panel}</span>
+                    <span className="ebz__dropText">Hybrid</span>
+                  </Link>
+                </div>
+              </li>
+
+              {/* Locations */}
+              <li className="ebz__navItem">
+                <Link to="/Places" className="ebz__navLink">
+                  <span className="ebz__navIcon">{solarIcons.location}</span>
+                  <span className="ebz__navText">Locations</span>
+                </Link>
+              </li>
+
+              {/* More */}
+              <li className="ebz__navItem ebz__navItem--hasChild">
+                <span className="ebz__navLink">
+                  <span className="ebz__navText">More</span>
+                  <span className="ebz__navArrow">{solarIcons.arrowDown}</span>
+                </span>
+                <div className="ebz__drop ebz__drop--right">
+                  <Link to="/solar_calculator" className="ebz__dropItem">
+                    <span className="ebz__dropIcon">{solarIcons.calculator}</span>
+                    <span className="ebz__dropText">Calculator</span>
+                  </Link>
+                  <Link to="/about" className="ebz__dropItem">
+                    <span className="ebz__dropIcon">{solarIcons.about}</span>
+                    <span className="ebz__dropText">About Us</span>
+                  </Link>
+                </div>
+              </li>
+            </ul>
+          </nav>
+
+          {/* Desktop CTA */}
+          <div className="ebz__ctaWrap">
+            <Link to="/Appointment" className="ebz__cta">
+              <span className="ebz__ctaIcon">{solarIcons.calendar}</span>
+              <span className="ebz__ctaText">Free Consultation</span>
+              <span className="ebz__ctaArrow">{solarIcons.arrowRight}</span>
+            </Link>
+          </div>
+
+          {/* Mobile Toggle */}
+          <button className="ebz__toggle" onClick={toggleMobileMenu}>
+            {isMobileMenuOpen ? solarIcons.close : solarIcons.menu}
+          </button>
+
+        </div>
+      </div>
+
+      {/* ===== MOBILE MENU ===== */}
+      <div className={`ebz__mobile ${isMobileMenuOpen ? 'ebz__mobile--active' : ''}`}>
+        <div className="ebz__mobileHead">
+          <img src="/assets/img/eastern-baylogo.png" alt="EasternBey" className="ebz__mobileLogo" />
+          <button className="ebz__mobileClose" onClick={toggleMobileMenu}>
+            {solarIcons.close}
           </button>
         </div>
 
-        <nav className="mobile-nav">
-          <ul>
-            <li>
-              <Link to="/" onClick={toggle} className="mobile-menu-item">
-                <FontAwesomeIcon icon={faHome} className="menu-icon" />
-                <span>Home</span>
+        <nav className="ebz__mobileNav">
+          {/* Offerings */}
+          <div className="ebz__mobileBlock">
+            <button className="ebz__mobileBtn" onClick={() => toggleSubmenu('offerings')}>
+              <span className="ebz__mobileBtnText">Our Offerings</span>
+              <span className={`ebz__mobileArrow ${activeSubmenu === 'offerings' ? 'ebz__mobileArrow--rotate' : ''}`}>
+                {solarIcons.arrowDown}
+              </span>
+            </button>
+            <div className={`ebz__mobileSub ${activeSubmenu === 'offerings' ? 'ebz__mobileSub--open' : ''}`}>
+              <Link to="/solar_calculator" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+                <span className="ebz__mobileIcon">{solarIcons.building}</span>
+                <span>Residential</span>
               </Link>
-            </li>
-            <li>
-              <Link to="/about" onClick={toggle} className="mobile-menu-item">
-                <FontAwesomeIcon icon={faInfoCircle} className="menu-icon" />
+              <Link to="/solar_calculator" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+                <span className="ebz__mobileIcon">{solarIcons.building}</span>
+                <span>Commercial</span>
+              </Link>
+              <Link to="/solar_calculator" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+                <span className="ebz__mobileIcon">{solarIcons.building}</span>
+                <span>Industrial</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Solutions */}
+          <div className="ebz__mobileBlock">
+            <button className="ebz__mobileBtn" onClick={() => toggleSubmenu('solutions')}>
+              <span className="ebz__mobileBtnText">Solar Solutions</span>
+              <span className={`ebz__mobileArrow ${activeSubmenu === 'solutions' ? 'ebz__mobileArrow--rotate' : ''}`}>
+                {solarIcons.arrowDown}
+              </span>
+            </button>
+            <div className={`ebz__mobileSub ${activeSubmenu === 'solutions' ? 'ebz__mobileSub--open' : ''}`}>
+              <Link to="/OffGridSolar" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+                <span className="ebz__mobileIcon">{solarIcons.battery}</span>
+                <span>Off-Grid</span>
+              </Link>
+              <Link to="/OnGridSolar" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+                <span className="ebz__mobileIcon">{solarIcons.bolt}</span>
+                <span>On-Grid</span>
+              </Link>
+              <Link to="/HybridSolar" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+                <span className="ebz__mobileIcon">{solarIcons.panel}</span>
+                <span>Hybrid</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Locations */}
+          <Link to="/Places" className="ebz__mobileItem" onClick={toggleMobileMenu}>
+            <span className="ebz__mobileIcon">{solarIcons.location}</span>
+            <span>Locations</span>
+          </Link>
+
+          {/* More */}
+          <div className="ebz__mobileBlock">
+            <button className="ebz__mobileBtn" onClick={() => toggleSubmenu('more')}>
+              <span className="ebz__mobileBtnText">More</span>
+              <span className={`ebz__mobileArrow ${activeSubmenu === 'more' ? 'ebz__mobileArrow--rotate' : ''}`}>
+                {solarIcons.arrowDown}
+              </span>
+            </button>
+            <div className={`ebz__mobileSub ${activeSubmenu === 'more' ? 'ebz__mobileSub--open' : ''}`}>
+              <Link to="/solar_calculator" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+                <span className="ebz__mobileIcon">{solarIcons.calculator}</span>
+                <span>Calculator</span>
+              </Link>
+              <Link to="/about" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+                <span className="ebz__mobileIcon">{solarIcons.about}</span>
                 <span>About Us</span>
               </Link>
-            </li>
-            <li>
-              <Link to="/Places" onClick={toggle} className="mobile-menu-item">
-                <FontAwesomeIcon icon={faMapMarkerAlt} className="menu-icon" />
-                <span>Locations</span>
-              </Link>
-            </li>
+            </div>
+          </div>
 
-            {/* More Menu */}
-            <li className="menu-item-has-children">
-              <div 
-                className="mobile-menu-item with-submenu"
-                onClick={() => toggleMobileSubmenu('more')}
-              >
-                <span className="menu-text">More</span>
-                <span className="arrow-indicator">
-                  {mobileSubmenu === 'more' ? '▼' : '▶'}
-                </span>
-              </div>
-              <ul className={`sub-menu ${mobileSubmenu === 'more' ? 'open' : ''}`}>
-                <li>
-                  <Link to="/solar_calculator" onClick={toggle} className="mobile-menu-item">
-                    <FontAwesomeIcon icon={faCalculator} className="menu-icon" />
-                    <span>Solar Calculator</span>
-                  </Link>
-                </li>
-              </ul>
-            </li>
-            
-            {/* Mobile Appointment Button */}
-            <li className="mobile-appointment-btn">
-              <Link to="/Appointment" onClick={toggle} className="btn-appointment-mobile">
-                <FontAwesomeIcon icon={faCalendarCheck} className="btn-icon" />
-                <span>Book Appointment</span>
-              </Link>
-            </li>
-          </ul>
+          {/* Mobile CTA */}
+          <Link to="/Appointment" className="ebz__mobileCTA" onClick={toggleMobileMenu}>
+            <span className="ebz__mobileCTAIcon">{solarIcons.calendar}</span>
+            <span className="ebz__mobileCTAText">Book Free Consultation</span>
+            <span className="ebz__mobileCTAArrow">{solarIcons.arrowRight}</span>
+          </Link>
         </nav>
       </div>
 
-      {/* ===== Desktop Header ===== */}
-      <div className="sticky-wrapper">
-        <div className="menu-area">
-          <div className="container-fluid">
-            <div className="row align-items-center justify-content-between">
-              
-              <div className="col-auto">
-                <div className="header-logo">
-                  <Link to="/">
-                    <img src="/assets/img/eastern-baylogo.png" alt="Solar" />
-                  </Link>
-                </div>
-              </div>
+      {/* Mobile Overlay */}
+      <div 
+        className={`ebz__overlay ${isMobileMenuOpen ? 'ebz__overlay--visible' : ''}`}
+        onClick={toggleMobileMenu}
+      ></div>
 
-              {/* Desktop Menu */}
-              <div className="col-auto d-none d-lg-block">
-                <nav className="main-menu style2">
-                  <ul>
-                    <li className="menu-item-has-children">
-                      <Link to="#">Our Offerings</Link>
-                      <ul className="sub-menu">
-                        <li><Link to="/solar_calculator">Home</Link></li>
-                        <li><Link to="/solar_calculator">Commercial</Link></li>
-                        <li><Link to="/solar_calculator">Housing Societies</Link></li>
-                      </ul>
-                    </li>
-                    
-                    {/* Solar Solutions */}
-                    <li 
-                      className="menu-item-has-children"
-                      onMouseEnter={() => toggleDesktopSubmenu('solutions')}
-                      onMouseLeave={() => toggleDesktopSubmenu(null)}
-                    >
-                      <Link to="#" className="desktop-menu-item">
-                        <FontAwesomeIcon icon={faSun} className="menu-icon" />
-                        <span className="menu-text">Solar Solutions</span>
-                      </Link>
-                      <ul className={`sub-menu ${desktopSubmenu === 'solutions' ? 'open' : ''}`}>
-                        <li>
-                          <Link to="/OffGridSolar" className="desktop-menu-item">
-                            <FontAwesomeIcon icon={faBolt} className="menu-icon" />
-                            <span>Off-Grid</span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/OnGridSolar" className="desktop-menu-item">
-                            <FontAwesomeIcon icon={faBolt} className="menu-icon" />
-                            <span>On-Grid</span>
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                    
-                    {/* Locations */}
-                    <li>
-                      <Link to="/Places" className="desktop-menu-item">
-                        <FontAwesomeIcon icon={faMapMarkerAlt} className="menu-icon" />
-                        <span className="menu-text">Locations</span>
-                      </Link>
-                    </li>
-                    
-                    {/* More */}
-                    <li 
-                      className="menu-item-has-children"
-                      onMouseEnter={() => toggleDesktopSubmenu('more')}
-                      onMouseLeave={() => toggleDesktopSubmenu(null)}
-                    >
-                      <Link to="#" className="desktop-menu-item">
-                        <span className="menu-text">More</span>
-                      </Link>
-                      <ul className={`sub-menu ${desktopSubmenu === 'more' ? 'open' : ''}`}>
-                        <li>
-                          <Link to="/solar_calculator" className="desktop-menu-item">
-                            <FontAwesomeIcon icon={faCalculator} className="menu-icon" />
-                            <span>Solar Calculator</span>
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-
-              {/* Mobile Menu Button */}
-              <div className="col-auto d-lg-none">
-                <button className="mobile-toggle-btn" onClick={toggle}>
-                  <FontAwesomeIcon icon={faBars} />
-                </button>
-              </div>
-
-              {/* Desktop Appointment Button */}
-              <div className="col-auto d-none d-xl-block">
-                <Link to="/Appointment" className="btn-appointment">
-                  <FontAwesomeIcon icon={faCalendarCheck} className="btn-icon" />
-                  <span className="btn-text">Book Free Consultation</span>
-                </Link>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Add CSS styles */}
       <style jsx>{`
-        /* Appointment Button Styles */
-        .btn-appointment {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-          color: #000;
-          padding: 12px 24px;
-          border-radius: 50px;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 1rem;
-          box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
-          transition: all 0.3s ease;
-          position: relative;
+        /* ===== EASTERN BEY HEADER ===== */
+        /* PREFIX: ebz__ - 100% UNIQUE - NO SCROLL EFFECTS */
+        
+        .ebz__master {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 9999;
+          background: white;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          transition: none; /* No transition on scroll */
+        }
+
+        /* ===== TICKER - ALWAYS VISIBLE ===== */
+        .ebz__ticker {
+          background: linear-gradient(95deg, #0B1A2E, #1E2F40);
+          color: white;
+          padding: 10px 0;
           overflow: hidden;
-          border: none;
-          cursor: pointer;
+          position: relative;
+          border-bottom: 1px solid rgba(255, 149, 0, 0.2);
         }
 
-        .btn-appointment:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
-          background: linear-gradient(135deg, #FFEC00 0%, #FF8C00 100%);
-          color: #000;
-        }
-
-        .btn-appointment:active {
-          transform: translateY(0);
-        }
-
-        .btn-icon {
-          font-size: 1.2rem;
-        }
-
-        .btn-text {
+        .ebz__tickerTrack {
+          display: flex;
+          animation: ebzScroll 30s linear infinite;
           white-space: nowrap;
         }
 
-        /* Mobile Appointment Button */
-        .mobile-appointment-btn {
-          margin-top: 20px;
-          padding: 0 15px;
+        .ebz__tickerItem {
+          display: inline-flex;
+          align-items: center;
+          padding: 0 28px;
+          font-size: 14px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.95);
+          letter-spacing: 0.2px;
         }
 
-        .btn-appointment-mobile {
+        .ebz__tickerBullet {
+          color: #FF9500;
+          margin-right: 10px;
+          font-size: 12px;
+          animation: ebzPulse 2s infinite;
+        }
+
+        /* ===== MAIN BAR - FIXED SIZE, NO CHANGES ===== */
+        .ebz__bar {
+          padding: 15px 0;
+          background: white;
+        }
+
+        .ebz__container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 40px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        /* Logo - Fixed Size */
+        .ebz__logoWrap {
+          flex-shrink: 0;
+        }
+
+        .ebz__logoImg {
+          height: 52px !important;
+          width: auto;
+        }
+
+        /* Desktop Navigation */
+        .ebz__nav {
+          margin-left: 50px;
+          flex: 1;
+        }
+
+        .ebz__navList {
+          display: flex;
+          align-items: center;
+          gap: 32px;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .ebz__navItem {
+          position: relative;
+        }
+
+        .ebz__navLink {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #1E293B;
+          font-weight: 500;
+          font-size: 15px;
+          text-decoration: none;
+          padding: 10px 0;
+          cursor: pointer;
+          transition: color 0.2s ease;
+        }
+
+        .ebz__navIcon {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 10px;
-          background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-          color: #000;
-          padding: 15px 20px;
-          border-radius: 50px;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 1rem;
-          width: 100%;
-          box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+          color: #FF9500;
+          transition: transform 0.2s ease;
         }
 
-        /* Menu Item Icons */
-        .menu-icon {
-          margin-right: 10px;
-          width: 20px;
-          text-align: center;
-          color: #FFA500;
-        }
-
-        .desktop-menu-item,
-        .mobile-menu-item {
-          display: flex;
-          align-items: center;
-          padding: 10px 15px;
+        .ebz__navText {
           color: inherit;
-          text-decoration: none;
-          transition: color 0.3s ease;
-          position: relative;
         }
 
-        .desktop-menu-item:hover .menu-icon,
-        .mobile-menu-item:hover .menu-icon {
-          color: #FFD700;
-        }
-
-        .menu-text {
-          font-weight: 500;
-        }
-
-        /* REMOVE ALL PSEUDO-ELEMENTS (settings and down arrows) */
-        .desktop-menu-item::before,
-        .desktop-menu-item::after,
-        .mobile-menu-item::before,
-        .mobile-menu-item::after,
-        .menu-item-has-children > a::before,
-        .menu-item-has-children > a::after,
-        .menu-item-has-children > div::before,
-        .menu-item-has-children > div::after {
-          content: none !important;
-          display: none !important;
-        }
-
-        /* Remove any automatic down arrows */
-        .menu-item-has-children > a:after,
-        .menu-item-has-children > div:after {
-          display: none !important;
-        }
-
-        /* Mobile menu submenu arrow */
-        .arrow-indicator {
-          margin-left: auto;
-          font-size: 0.8rem;
-          transition: transform 0.3s ease;
-        }
-
-        .menu-item-has-children .with-submenu {
-          cursor: pointer;
+        .ebz__navArrow {
           display: flex;
           align-items: center;
-          width: 100%;
+          margin-left: 2px;
+          color: #FF9500;
+          transition: transform 0.2s ease;
         }
 
-        .sub-menu.open {
-          display: block;
-          max-height: 500px;
-          opacity: 1;
+        .ebz__navItem--hasChild:hover .ebz__navArrow {
+          transform: rotate(180deg);
         }
 
-        /* Mobile Toggle Button */
-        .mobile-toggle-btn {
-          background: none;
-          border: none;
-          font-size: 1.5rem;
-          color: #333;
-          cursor: pointer;
-          padding: 10px;
+        .ebz__navLink:hover {
+          color: #FF9500;
         }
 
-        .close-btn {
-          background: none;
-          border: none;
-          font-size: 1.5rem;
-          color: #333;
-          cursor: pointer;
-          padding: 10px;
+        .ebz__navLink:hover .ebz__navIcon {
+          transform: scale(1.1);
         }
 
-        /* Hide ALL automatically added icons */
-        .fa-cog, 
-        .fa-gear,
-        .fa-angle-down,
-        .fa-chevron-down,
-        .fa-caret-down,
-        .fa-arrow-down {
-          display: none !important;
-        }
-
-        /* Desktop sub-menu styling */
-        .clean-menu .menu-item-has-children {
-          position: relative;
-        }
-
-        .clean-menu .sub-menu {
+        /* Dropdown */
+        .ebz__drop {
           position: absolute;
           top: 100%;
           left: 0;
-          min-width: 200px;
+          min-width: 220px;
           background: white;
-          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          border-radius: 16px;
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+          padding: 10px;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(15px);
+          transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+          z-index: 100;
+          border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .ebz__drop--right {
+          left: auto;
+          right: 0;
+        }
+
+        .ebz__navItem--hasChild:hover .ebz__drop {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(8px);
+        }
+
+        .ebz__dropItem {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 16px;
+          border-radius: 12px;
+          color: #475569;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .ebz__dropItem:hover {
+          background: #FFF9F0;
+          color: #FF9500;
+          padding-left: 20px;
+        }
+
+        .ebz__dropIcon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          background: rgba(255, 149, 0, 0.05);
           border-radius: 8px;
-          padding: 10px 0;
+          color: #FF9500;
+        }
+
+        .ebz__dropText {
+          font-weight: 500;
+          font-size: 14px;
+        }
+
+        /* Desktop CTA - Always Same */
+        .ebz__ctaWrap {
+          flex-shrink: 0;
+        }
+
+        .ebz__cta {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          background: linear-gradient(145deg, #FF9500, #F97316);
+          color: white;
+          padding: 14px 28px;
+          border-radius: 40px;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 15px;
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          box-shadow: 0 8px 20px rgba(255, 149, 0, 0.2);
+          border: none;
+        }
+
+        .ebz__cta:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 12px 28px rgba(255, 149, 0, 0.3);
+        }
+
+        .ebz__ctaArrow {
+          transition: transform 0.3s ease;
+        }
+
+        .ebz__cta:hover .ebz__ctaArrow {
+          transform: translateX(5px);
+        }
+
+        /* Mobile Toggle */
+        .ebz__toggle {
           display: none;
-          z-index: 1000;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 8px;
+          color: #1E293B;
         }
 
-        .clean-menu .sub-menu.open {
-          display: block;
+        /* ===== MOBILE MENU ===== */
+        .ebz__mobile {
+          position: fixed;
+          top: 0;
+          right: -420px;
+          width: 380px;
+          height: 100vh;
+          background: white;
+          z-index: 10000;
+          transition: right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          box-shadow: -5px 0 30px rgba(0, 0, 0, 0.05);
+          overflow-y: auto;
         }
 
-        /* Remove all default dropdown arrows from parent theme */
-        .menu-item-has-children {
-          background-image: none !important;
+        .ebz__mobile--active {
+          right: 0;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-          .btn-appointment {
-            padding: 10px 20px;
-            font-size: 0.9rem;
+        .ebz__mobileHead {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 24px 28px;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .ebz__mobileLogo {
+          height: 42px;
+        }
+
+        .ebz__mobileClose {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 8px;
+          color: #1E293B;
+          transition: transform 0.2s ease;
+        }
+
+        .ebz__mobileClose:hover {
+          transform: rotate(90deg);
+        }
+
+        .ebz__mobileNav {
+          padding: 28px;
+        }
+
+        .ebz__mobileBlock {
+          margin-bottom: 8px;
+        }
+
+        .ebz__mobileBtn {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: 16px 20px;
+          background: #F8FAFC;
+          border: none;
+          border-radius: 14px;
+          font-weight: 500;
+          font-size: 16px;
+          color: #1E293B;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .ebz__mobileBtn:hover {
+          background: #FFF9F0;
+          color: #FF9500;
+        }
+
+        .ebz__mobileArrow {
+          transition: transform 0.3s ease;
+          color: #FF9500;
+        }
+
+        .ebz__mobileArrow--rotate {
+          transform: rotate(180deg);
+        }
+
+        .ebz__mobileSub {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease;
+          padding-left: 16px;
+        }
+
+        .ebz__mobileSub--open {
+          max-height: 250px;
+        }
+
+        .ebz__mobileLink {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 14px 20px;
+          color: #475569;
+          text-decoration: none;
+          border-radius: 12px;
+          transition: all 0.2s ease;
+          margin: 4px 0;
+        }
+
+        .ebz__mobileLink:hover {
+          background: #FFF9F0;
+          color: #FF9500;
+        }
+
+        .ebz__mobileItem {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 16px 20px;
+          color: #1E293B;
+          text-decoration: none;
+          font-weight: 500;
+          border-radius: 14px;
+          transition: all 0.2s ease;
+          margin-bottom: 8px;
+        }
+
+        .ebz__mobileItem:hover {
+          background: #FFF9F0;
+          color: #FF9500;
+        }
+
+        .ebz__mobileIcon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #FF9500;
+        }
+
+        .ebz__mobileCTA {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          background: linear-gradient(145deg, #FF9500, #F97316);
+          color: white;
+          padding: 18px 24px;
+          border-radius: 50px;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 16px;
+          margin-top: 32px;
+          transition: all 0.3s ease;
+        }
+
+        .ebz__mobileCTA:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 10px 25px rgba(255, 149, 0, 0.3);
+        }
+
+        .ebz__mobileCTAArrow {
+          margin-left: auto;
+          transition: transform 0.3s ease;
+        }
+
+        .ebz__mobileCTA:hover .ebz__mobileCTAArrow {
+          transform: translateX(5px);
+        }
+
+        /* Overlay */
+        .ebz__overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 9999;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(4px);
+        }
+
+        .ebz__overlay--visible {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        /* Animations */
+        @keyframes ebzScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        @keyframes ebzPulse {
+          0% { opacity: 0.8; }
+          50% { opacity: 1; }
+          100% { opacity: 0.8; }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+          .ebz__nav {
+            display: none;
           }
+          .ebz__ctaWrap {
+            display: none;
+          }
+          .ebz__toggle {
+            display: block;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .ebz__container {
+            padding: 0 20px;
+          }
+          .ebz__logoImg {
+            height: 44px;
+          }
+          .ebz__mobile {
+            width: 100%;
+            right: -100%;
+          }
+          .ebz__tickerItem {
+            padding: 0 16px;
+            font-size: 12px;
+          }
+        }
+
+        /* Remove all scroll-related styles */
+        .ebz__master--compact,
+        .ebz__master--scrolled {
+          display: none;
         }
       `}</style>
     </header>
