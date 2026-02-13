@@ -1179,20 +1179,7 @@ select,
 .form-control,
 .form-select,
 textarea,
-input {
-  height: 50px;
-  padding: 0 25px 0 25px;
-  padding-right: 45px;
-  border: 1px solid var(--smoke-color);
-  color: var(--body-color);
-  background-color: var(--white-color);
-  border-radius: 14px;
-  font-size: 14px;
-  width: 100%;
-  font-family: var(--body-font);
-  -webkit-transition: 0.4s ease-in-out;
-  transition: 0.4s ease-in-out;
-}
+
 select:focus,
 .form-control:focus,
 .form-select:focus,
@@ -12078,12 +12065,12 @@ span.select2-selection.select2-selection--single:focus {
 .contact-form .form-control,
 .contact-form .form-select,
 .contact-form textarea,
-.contact-form input {
+/* .contact-form input {
   background: #f8f8f8;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   height: 56px;
-}
+} */
 .contact-form .th-btn:hover:before,
 .contact-form .th-btn:hover:after {
   width: 120%;
