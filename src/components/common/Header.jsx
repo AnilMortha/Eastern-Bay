@@ -611,7 +611,7 @@ const Header = () => {
           position: fixed;
           top: 0;
           right: -420px;
-          width: 380px;
+          width: auto;
           height: 100vh;
           background: white;
           z-index: 10000;
@@ -632,7 +632,7 @@ const Header = () => {
           border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .ebz__mobileLogo {
+        .ebz__mobileHead .ebz__mobileLogo {
           height: 42px;
         }
 
@@ -821,10 +821,10 @@ const Header = () => {
           .ebz__logoImg {
             height: 44px;
           }
-          .ebz__mobile {
-            width: 100%;
-            right: -100%;
-          }
+          // .ebz__mobile {
+          //   width: 100%;
+          //   right: -100%;
+          // }
           .ebz__tickerItem {
             padding: 0 16px;
             font-size: 12px;
