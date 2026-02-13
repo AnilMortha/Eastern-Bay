@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const SolarCalculator = () => {
   const [formData, setFormData] = useState({
@@ -10,19 +10,60 @@ const SolarCalculator = () => {
 
   const [results, setResults] = useState(null);
   const [showResults, setShowResults] = useState(false);
+  const [selectedState, setSelectedState] = useState("andhra");
 
   // Solar calculation parameters
   const solarParams = {
-    andhra: { solarHours: 5.2, costPerKw: 45000 },
-    telangana: { solarHours: 5.1, costPerKw: 46000 },
-    tamilnadu: { solarHours: 4.9, costPerKw: 47000 },
-    karnataka: { solarHours: 5.0, costPerKw: 46000 },
+    andhra: { 
+      solarHours: 5.2, 
+      costPerKw: 45000,
+      subsidy: 14500,
+      state: "Andhra Pradesh",
+      solarPotential: "Excellent",
+      avgSunshine: "5.2 hrs/day"
+    },
+    telangana: { 
+      solarHours: 5.1, 
+      costPerKw: 46000,
+      subsidy: 14000,
+      state: "Telangana",
+      solarPotential: "Very Good",
+      avgSunshine: "5.1 hrs/day"
+    },
+    tamilnadu: { 
+      solarHours: 4.9, 
+      costPerKw: 47000,
+      subsidy: 13500,
+      state: "Tamil Nadu",
+      solarPotential: "Good",
+      avgSunshine: "4.9 hrs/day"
+    },
+    karnataka: { 
+      solarHours: 5.0, 
+      costPerKw: 46000,
+      subsidy: 14000,
+      state: "Karnataka",
+      solarPotential: "Very Good",
+      avgSunshine: "5.0 hrs/day"
+    },
   };
 
   const applianceUsageLevels = {
-    low: { factor: 0.8, description: "Basic lighting, fans, TV" },
-    medium: { factor: 1.0, description: "AC, refrigerator, washing machine" },
-    high: { factor: 1.3, description: "Multiple ACs, geyser, full home" },
+    low: { 
+      factor: 0.8, 
+      description: "Basic lighting, fans, TV",
+      icon: "low-usage"
+    },
+    medium: { 
+      factor: 1.0, 
+      description: "AC, refrigerator, washing machine",
+      icon: "medium-usage"
+    },
+    high: { 
+      factor: 1.3, 
+      description: "Multiple ACs, geyser, full home",
+      icon: "high-usage"
+    },
   };
 
   const calculateSolarRequirements = () => {
@@ -37,7 +78,7 @@ const SolarCalculator = () => {
     }
 
     // Calculate required system size
-    const monthlyUnits = billAmount / 8; // Approximate cost per unit
+    const monthlyUnits = billAmount / 8;
     const dailyUnits = monthlyUnits / 30;
     const systemSizeKw =
       (dailyUnits / locationData.solarHours) * usageData.factor;
@@ -45,7 +86,7 @@ const SolarCalculator = () => {
     // Adjust based on roof area if provided
     let finalSystemSize = systemSizeKw;
     if (roofArea) {
-      const maxSystemFromRoof = roofArea * 0.1; // 100W per sq meter
+      const maxSystemFromRoof = roofArea * 0.1;
       finalSystemSize = Math.min(systemSizeKw, maxSystemFromRoof);
     }
 
@@ -57,7 +98,7 @@ const SolarCalculator = () => {
 
     // Calculate costs and savings
     const systemCost = recommendedSize * locationData.costPerKw;
-    const govtSubsidy = recommendedSize >= 3 ? recommendedSize * 14500 : 0;
+    const govtSubsidy = recommendedSize >= 3 ? recommendedSize * locationData.subsidy : 0;
     const finalCost = systemCost - govtSubsidy;
 
     const monthlySavings = billAmount;
@@ -65,8 +106,9 @@ const SolarCalculator = () => {
     const paybackPeriod = finalCost / yearlySavings;
 
     // Environmental impact
-    const yearlyCO2Reduction = recommendedSize * 1.5; // tons
+    const yearlyCO2Reduction = recommendedSize * 1.5;
     const treesEquivalent = yearlyCO2Reduction * 50;
+    const fuelSaved = recommendedSize * 120;
 
     setResults({
       systemSize: recommendedSize,
@@ -78,8 +120,10 @@ const SolarCalculator = () => {
       paybackPeriod: paybackPeriod.toFixed(1),
       yearlyCO2Reduction: yearlyCO2Reduction.toFixed(1),
       treesEquivalent: Math.round(treesEquivalent),
-      requiredRoofArea: recommendedSize * 10, // 10 sqm per kW
+      requiredRoofArea: recommendedSize * 10,
       batteryBackup: recommendedSize >= 3 ? "Recommended" : "Optional",
+      fuelSaved: fuelSaved.toFixed(0),
+      stateData: locationData
     });
 
     setShowResults(true);
@@ -91,6 +135,9 @@ const SolarCalculator = () => {
       ...prev,
       [name]: value,
     }));
+    if (name === "location") {
+      setSelectedState(value);
+    }
   };
 
   const resetCalculator = () => {
@@ -100,622 +147,1051 @@ const SolarCalculator = () => {
       location: "andhra",
       applianceUsage: "medium",
     });
+    setSelectedState("andhra");
     setShowResults(false);
     setResults(null);
   };
 
+  // SVG Icons
+  const SunIcon = () => (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="6" fill="#FF9500" />
+      <g stroke="#FF9500" strokeWidth="1.5">
+        <path d="M12 2V4" strokeLinecap="round" />
+        <path d="M12 20V22" strokeLinecap="round" />
+        <path d="M4 12H2" strokeLinecap="round" />
+        <path d="M22 12H20" strokeLinecap="round" />
+        <path d="M19.07 4.93L17.66 6.34" strokeLinecap="round" />
+        <path d="M6.34 17.66L4.93 19.07" strokeLinecap="round" />
+        <path d="M19.07 19.07L17.66 17.66" strokeLinecap="round" />
+        <path d="M6.34 6.34L4.93 4.93" strokeLinecap="round" />
+      </g>
+    </svg>
+  );
+
+  const BillIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="2" width="20" height="20" rx="2" stroke="#0f766e" strokeWidth="1.5" />
+      <path d="M6 8H18" stroke="#0f766e" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M6 12H18" stroke="#0f766e" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M6 16H14" stroke="#0f766e" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+
+  const RoofIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 10L12 3L21 10L18 10L18 19H6L6 10L3 10Z" stroke="#0f766e" strokeWidth="1.5" strokeLinejoin="round" />
+      <rect x="9" y="13" width="6" height="6" stroke="#0f766e" strokeWidth="1.5" />
+    </svg>
+  );
+
+  const LocationIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#0f766e" strokeWidth="1.5" />
+      <circle cx="12" cy="9" r="3" stroke="#0f766e" strokeWidth="1.5" />
+    </svg>
+  );
+
+  const ApplianceIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <rect x="4" y="2" width="16" height="20" rx="2" stroke="#0f766e" strokeWidth="1.5" />
+      <circle cx="12" cy="16" r="2" stroke="#0f766e" strokeWidth="1.5" />
+      <rect x="8" y="6" width="8" height="4" rx="1" stroke="#0f766e" strokeWidth="1.5" />
+    </svg>
+  );
+
+  const SystemIcon = () => (
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="6" width="20" height="12" rx="2" stroke="#0f766e" strokeWidth="1.5" />
+      <rect x="6" y="10" width="3" height="4" fill="#0f766e" opacity="0.3" />
+      <rect x="10" y="8" width="3" height="8" fill="#0f766e" opacity="0.5" />
+      <rect x="14" y="6" width="3" height="12" fill="#0f766e" opacity="0.7" />
+    </svg>
+  );
+
+  const SavingsIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 6V8M12 16V18M8 10H16M7 12H17" stroke="#0ea5e9" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="12" cy="12" r="9" stroke="#0ea5e9" strokeWidth="1.5" />
+    </svg>
+  );
+
+  const CO2Icon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 3L3 8L12 13L21 8L12 3Z" stroke="#166534" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M3 13L12 18L21 13" stroke="#166534" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M3 18L12 23L21 18" stroke="#166534" strokeWidth="1.5" strokeLinejoin="round" />
+    </svg>
+  );
+
+  const TreeIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2L8 8H11L9 14H13L11 20L12 22L13 20L15 14H11L13 8H16L12 2Z" fill="#166534" opacity="0.8" />
+    </svg>
+  );
+
   return (
-    <div
-    class="solar-bg-slider"
-      style={{
-        minHeight: "100vh",
-        padding: "20px",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          display: "flex",
-          gap: "30px",
-          flexWrap: "wrap",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        {/* Calculator Form */}
-        <div
-          style={{
-            flex: "1",
-            minWidth: "400px",
-            background: "white",
-            padding: "30px",
-            borderRadius: "15px",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-            border: "1px solid #e1f5fe",
-          }}
-        >
-          <div
-            style={{
-              textAlign: "center",
-              marginBottom: "30px",
-            }}
-          >
-            <h1
-              style={{
-                color: "#0f766e",
-                margin: "0 0 10px 0",
-                fontSize: "28px",
-                fontWeight: "700",
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 36 36"
-              >
-                <path
-                  fill="#FFAC33"
-                  d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"
-                />
-                <circle cx="18" cy="18" r="10" fill="#FFAC33" />
-              </svg>
-              &nbsp; Solar System Calculator
-            </h1>
-            <p
-              style={{
-                color: "#64748b",
-                fontSize: "16px",
-                margin: 0,
-              }}
-            >
-              Calculate your perfect solar solution in just 2 minutes
-            </p>
+    <div className="ebx__solar-calculator">
+      {/* Animated Background */}
+      <div className="ebx__calculator-bg">
+        <div className="ebx__bg-particles"></div>
+        <div className="ebx__bg-solar-panels"></div>
+        <div className="ebx__bg-sun"></div>
+      </div>
+
+      <div className="ebx__calculator-container">
+        {/* Header Section */}
+        <div className="ebx__calculator-header">
+          <div className="ebx__header-icon">
+            <SunIcon />
           </div>
-
-          {/* Electricity Bill Input */}
-          <div style={{ marginBottom: "25px" }}>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "8px",
-                fontWeight: "600",
-                color: "#374151",
-                fontSize: "15px",
-              }}
-            >
-              Monthly Electricity Bill (₹)
-            </label>
-            <input
-              type="number"
-              name="electricityBill"
-              value={formData.electricityBill}
-              onChange={handleInputChange}
-              placeholder="e.g., 5000"
-              style={{
-                width: "100%",
-                padding: "12px 15px",
-                border: "2px solid #e2e8f0",
-                borderRadius: "8px",
-                fontSize: "16px",
-                transition: "all 0.3s ease",
-                boxSizing: "border-box",
-              }}
-              onFocus={(e) => (e.target.style.borderColor = "#0d9488")}
-              onBlur={(e) => (e.target.style.borderColor = "#e2e8f0")}
-            />
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                marginTop: "5px",
-              }}
-            >
-              Enter your average monthly electricity bill amount
-            </div>
-          </div>
-
-          {/* Roof Area Input */}
-          <div style={{ marginBottom: "25px" }}>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "8px",
-                fontWeight: "600",
-                color: "#374151",
-                fontSize: "15px",
-              }}
-            >
-              Available Roof Area (sq meters) - Optional
-            </label>
-            <input
-              type="number"
-              name="roofArea"
-              value={formData.roofArea}
-              onChange={handleInputChange}
-              placeholder="e.g., 50"
-              style={{
-                width: "100%",
-                padding: "12px 15px",
-                border: "2px solid #e2e8f0",
-                borderRadius: "8px",
-                fontSize: "16px",
-                transition: "all 0.3s ease",
-                boxSizing: "border-box",
-              }}
-            />
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                marginTop: "5px",
-              }}
-            >
-              Approximately 10 sq meters required per kW
-            </div>
-          </div>
-
-          {/* Location Selection */}
-          <div style={{ marginBottom: "25px" }}>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "8px",
-                fontWeight: "600",
-                color: "#374151",
-                fontSize: "15px",
-              }}
-            >
-              Location
-            </label>
-            <select
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-              style={{
-                width: "100%",
-                padding: "12px 15px",
-                border: "2px solid #e2e8f0",
-                borderRadius: "8px",
-                fontSize: "16px",
-                background: "white",
-                cursor: "pointer",
-              }}
-            >
-              <option value="andhra">Andhra Pradesh</option>
-              <option value="telangana">Telangana</option>
-              <option value="tamilnadu">Tamil Nadu</option>
-              <option value="karnataka">Karnataka</option>
-            </select>
-          </div>
-
-          {/* Appliance Usage */}
-          <div style={{ marginBottom: "30px" }}>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "8px",
-                fontWeight: "600",
-                color: "#374151",
-                fontSize: "15px",
-              }}
-            >
-              Appliance Usage Level
-            </label>
-            <select
-              name="applianceUsage"
-              value={formData.applianceUsage}
-              onChange={handleInputChange}
-              style={{
-                width: "100%",
-                padding: "12px 15px",
-                border: "2px solid #e2e8f0",
-                borderRadius: "8px",
-                fontSize: "16px",
-                background: "white",
-                cursor: "pointer",
-              }}
-            >
-              <option value="low">Low (Lights, Fans, TV)</option>
-              <option value="medium">Medium (+ AC, Refrigerator)</option>
-              <option value="high">High (Multiple ACs, Geyser)</option>
-            </select>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#64748b",
-                marginTop: "5px",
-              }}
-            >
-              {applianceUsageLevels[formData.applianceUsage].description}
-            </div>
-          </div>
-
-          {/* Calculate Button */}
-          <button
-            onClick={calculateSolarRequirements}
-            disabled={!formData.electricityBill}
-            style={{
-              width: "100%",
-              padding: "15px",
-              background: !formData.electricityBill
-                ? "#cbd5e1"
-                : "linear-gradient(135deg, #0d9488 0%, #0f766e 100%)",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              fontSize: "18px",
-              fontWeight: "600",
-              cursor: !formData.electricityBill ? "not-allowed" : "pointer",
-              transition: "all 0.3s ease",
-              marginBottom: "15px",
-            }}
-            onMouseEnter={(e) => {
-              if (formData.electricityBill) {
-                e.target.style.transform = "translateY(-2px)";
-                e.target.style.boxShadow = "0 5px 15px rgba(13, 148, 136, 0.4)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (formData.electricityBill) {
-                e.target.style.transform = "translateY(0)";
-                e.target.style.boxShadow = "none";
-              }
-            }}
-          >
-            Calculate Solar Requirements
-          </button>
-
-          <button
-            onClick={resetCalculator}
-            style={{
-              width: "100%",
-              padding: "12px",
-              background: "transparent",
-              color: "#64748b",
-              border: "2px solid #e2e8f0",
-              borderRadius: "8px",
-              fontSize: "16px",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-            }}
-          >
-            Reset Calculator
-          </button>
+          <h1 className="ebx__header-title">
+            <span>Solar Energy</span> Calculator
+          </h1>
+          <p className="ebx__header-subtitle">
+            Calculate your perfect solar solution for {solarParams[selectedState].state}
+          </p>
         </div>
 
-        {/* Results Section */}
-        <div
-          style={{
-            flex: "1",
-            minWidth: "400px",
-            display: showResults ? "block" : "flex",
-            alignItems: showResults ? "stretch" : "center",
-            justifyContent: showResults ? "flex-start" : "center",
-          }}
-        >
-          {showResults && results ? (
-            <div
-              style={{
-                background: "white",
-                padding: "30px",
-                borderRadius: "15px",
-                boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-                border: "1px solid #e1f5fe",
-                height: "fit-content",
-              }}
-            >
-              <h2
-                style={{
-                  color: "#0f766e",
-                  textAlign: "center",
-                  marginBottom: "25px",
-                  fontSize: "24px",
-                }}
-              >
-                Your Solar Solution
-              </h2>
-
-              {/* System Size */}
-              <div
-                style={{
-                  background:
-                    "linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%)",
-                  padding: "20px",
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  marginBottom: "20px",
-                  border: "2px solid #99f6e4",
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: "14px",
-                    color: "#047857",
-                    fontWeight: "600",
-                  }}
-                >
-                  RECOMMENDED SYSTEM SIZE
-                </div>
-                <div
-                  style={{
-                    fontSize: "36px",
-                    fontWeight: "700",
-                    color: "#0f766e",
-                  }}
-                >
-                  {results.systemSize} kW
-                </div>
-                <div style={{ fontSize: "14px", color: "#64748b" }}>
-                  Perfect for your energy needs
-                </div>
-              </div>
-
-              {/* Cost Breakdown */}
-              <div style={{ marginBottom: "20px" }}>
-                <h3 style={{ color: "#374151", marginBottom: "15px" }}>
-                  {" "}
-                  Cost Breakdown
-                </h3>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: "8px",
-                  }}
-                >
-                  <span>System Cost:</span>
-                  <span style={{ fontWeight: "600" }}>
-                    ₹{results.systemCost.toLocaleString()}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: "8px",
-                    color: "#059669",
-                  }}
-                >
-                  <span>Govt Subsidy:</span>
-                  <span style={{ fontWeight: "600" }}>
-                    -₹{results.govtSubsidy.toLocaleString()}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: "8px",
-                    paddingTop: "8px",
-                    borderTop: "2px solid #e2e8f0",
-                    fontWeight: "700",
-                    fontSize: "18px",
-                    color: "#0f766e",
-                  }}
-                >
-                  <span>Final Investment:</span>
-                  <span>₹{results.finalCost.toLocaleString()}</span>
-                </div>
-              </div>
-
-              {/* Savings */}
-              <div style={{ marginBottom: "20px" }}>
-                <h3 style={{ color: "#374151", marginBottom: "15px" }}>
-                  {" "}
-                  Annual Savings
-                </h3>
-                <div
-                  style={{
-                    background: "#f0f9ff",
-                    padding: "15px",
-                    borderRadius: "8px",
-                    textAlign: "center",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: "700",
-                      color: "#0ea5e9",
-                    }}
-                  >
-                    ₹{results.yearlySavings.toLocaleString()}
-                  </div>
-                  <div style={{ fontSize: "14px", color: "#64748b" }}>
-                    Payback Period: {results.paybackPeriod} years
-                  </div>
-                </div>
-              </div>
-
-              {/* Environmental Impact */}
-              <div style={{ marginBottom: "20px" }}>
-                <h3 style={{ color: "#374151", marginBottom: "15px" }}>
-                  {" "}
-                  Environmental Impact
-                </h3>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      background: "#f0fdf4",
-                      padding: "12px",
-                      borderRadius: "8px",
-                      textAlign: "center",
-                      border: "1px solid #bbf7d0",
-                    }}
-                  >
-                    <div style={{ fontSize: "12px", color: "#166534" }}>
-                      CO₂ Reduction
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "600",
-                        color: "#166534",
-                      }}
-                    >
-                      {results.yearlyCO2Reduction} tons/year
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      background: "#f0fdf4",
-                      padding: "12px",
-                      borderRadius: "8px",
-                      textAlign: "center",
-                      border: "1px solid #bbf7d0",
-                    }}
-                  >
-                    <div style={{ fontSize: "12px", color: "#166534" }}>
-                      Equivalent Trees
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "600",
-                        color: "#166534",
-                      }}
-                    >
-                      {results.treesEquivalent} trees
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Additional Info */}
-              <div
-                style={{
-                  background: "#fffbeb",
-                  padding: "15px",
-                  borderRadius: "8px",
-                  border: "1px solid #fcd34d",
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: "14px",
-                    color: "#92400e",
-                    fontWeight: "600",
-                    marginBottom: "5px",
-                  }}
-                >
-                  Additional Recommendations
-                </div>
-                <div style={{ fontSize: "13px", color: "#92400e" }}>
-                  • Required Roof Area: {results.requiredRoofArea} sq meters
-                  <br />• Battery Backup: {results.batteryBackup}
-                  <br />• Government subsidies available
-                </div>
-              </div>
-
-              <button
-                style={{
-                  width: "100%",
-                  padding: "15px",
-                  background:
-                    "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "8px",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                  marginTop: "20px",
-                  transition: "all 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.transform = "translateY(-2px)";
-                  e.target.style.boxShadow =
-                    "0 5px 15px rgba(245, 158, 11, 0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.transform = "translateY(0)";
-                  e.target.style.boxShadow = "none";
-                }}
-              >
-                Contact for Free Consultation
-              </button>
+        <div className="ebx__calculator-grid">
+          {/* Calculator Form */}
+          <div className="ebx__calculator-form">
+            <div className="ebx__form-header">
+              <h2>Enter Your Details</h2>
+              <p>Get accurate solar system recommendation</p>
             </div>
-          ) : (
-            <div
-              style={{
-                textAlign: "center",
-                color: "#64748b",
-                padding: "40px",
-              }}
-            >
-              <div style={{ fontSize: "64px", marginBottom: "20px" }}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="100"
-                  height="100"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  role="img"
-                >
-                  <title>Solar Calculator</title>
-                  <rect
-                    x="2"
-                    y="3"
-                    width="15"
-                    height="20"
-                    rx="2"
-                    fill="#f3f4f6"
-                    stroke="#e5e7eb"
-                  />
-                  <rect
-                    x="4"
-                    y="5.2"
-                    width="10"
-                    height="3"
-                    rx="0.5"
-                    fill="#111827"
-                    opacity="0.92"
-                  />
-                  <g fill="#111827" opacity="0.9">
-                    <circle cx="6.5" cy="11.5" r="0.8" />
-                    <circle cx="9.5" cy="11.5" r="0.8" />
-                    <circle cx="12.5" cy="11.5" r="0.8" />
-                    <circle cx="6.5" cy="14.5" r="0.8" />
-                    <circle cx="9.5" cy="14.5" r="0.8" />
-                    <circle cx="12.5" cy="14.5" r="0.8" />
-                    <circle cx="6.5" cy="17.5" r="0.8" />
-                    <circle cx="9.5" cy="17.5" r="0.8" />
-                    <circle cx="12.5" cy="17.5" r="0.8" />
-                    <rect x="6" y="19.8" width="7" height="1.6" rx="0.4" />
-                  </g>
-                  <g transform="translate(19,6)">
-                    <circle cx="0" cy="0" r="3" fill="#FFC857" />
-                    <g stroke="#FF9F1C" stroke-width="0.8">
-                      <path d="M0-4.4 L0-6" />
-                      <path d="M0 4.4 L0 6" />
-                      <path d="M4.4 0 L6 0" />
-                      <path d="M-4.4 0 L-6 0" />
-                      <path d="M3.1 -3.1 L4.3 -4.3" />
-                      <path d="M-3.1 3.1 L-4.3 4.3" />
-                      <path d="M3.1 3.1 L4.3 4.3" />
-                      <path d="M-3.1 -3.1 L-4.3 -4.3" />
-                    </g>
-                  </g>
-                </svg>
+
+            <div className="ebx__form-content">
+              {/* Electricity Bill */}
+              <div className="ebx__form-group">
+                <label className="ebx__form-label">
+                  <BillIcon />
+                  <span>Monthly Electricity Bill (₹)</span>
+                </label>
+                <input
+                  type="number"
+                  name="electricityBill"
+                  value={formData.electricityBill}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 5000"
+                  className="ebx__form-input"
+                />
+                <div className="ebx__form-hint">
+                  Enter your average monthly bill amount
+                </div>
               </div>
-              <h3 style={{ color: "#374151", marginBottom: "10px" }}>
-                Solar Calculator
-              </h3>
-              <p>Enter your details to calculate perfect solar system</p>
+
+              {/* Roof Area */}
+              <div className="ebx__form-group">
+                <label className="ebx__form-label">
+                  <RoofIcon />
+                  <span>Available Roof Area (sq meters)</span>
+                  <span className="ebx__label-optional">Optional</span>
+                </label>
+                <input
+                  type="number"
+                  name="roofArea"
+                  value={formData.roofArea}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 50"
+                  className="ebx__form-input"
+                />
+                <div className="ebx__form-hint">
+                  10 sq meters required per kW system
+                </div>
+              </div>
+
+              {/* Location Selection with Visual */}
+              <div className="ebx__form-group">
+                <label className="ebx__form-label">
+                  <LocationIcon />
+                  <span>Select Location</span>
+                </label>
+                <div className="ebx__location-selector">
+                  <select
+                    name="location"
+                    value={formData.location}
+                    onChange={handleInputChange}
+                    className="ebx__form-select"
+                  >
+                    <option value="andhra">Andhra Pradesh</option>
+                    <option value="telangana">Telangana</option>
+                    <option value="tamilnadu">Tamil Nadu</option>
+                    <option value="karnataka">Karnataka</option>
+                  </select>
+                  <div className="ebx__location-info">
+                    <div className="ebx__info-item">
+                      <span>Solar Hours:</span>
+                      <strong>{solarParams[selectedState].solarHours} hrs/day</strong>
+                    </div>
+                    <div className="ebx__info-item">
+                      <span>Solar Potential:</span>
+                      <strong>{solarParams[selectedState].solarPotential}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Appliance Usage */}
+              <div className="ebx__form-group">
+                <label className="ebx__form-label">
+                  <ApplianceIcon />
+                  <span>Appliance Usage Level</span>
+                </label>
+                <div className="ebx__usage-selector">
+                  {Object.keys(applianceUsageLevels).map((level) => (
+                    <label key={level} className={`ebx__usage-option ${formData.applianceUsage === level ? 'active' : ''}`}>
+                      <input
+                        type="radio"
+                        name="applianceUsage"
+                        value={level}
+                        checked={formData.applianceUsage === level}
+                        onChange={handleInputChange}
+                      />
+                      <span className="ebx__usage-name">
+                        {level.charAt(0).toUpperCase() + level.slice(1)}
+                      </span>
+                      <span className="ebx__usage-desc">
+                        {applianceUsageLevels[level].description}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="ebx__form-actions">
+                <button
+                  onClick={calculateSolarRequirements}
+                  disabled={!formData.electricityBill}
+                  className="ebx__btn ebx__btn-primary"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="1.5" />
+                    <path d="M12 8V12L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                  <span>Calculate Solar Requirements</span>
+                </button>
+                
+                <button
+                  onClick={resetCalculator}
+                  className="ebx__btn ebx__btn-secondary"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 6H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M8 6V4H16V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    <rect x="6" y="10" width="12" height="10" rx="1" stroke="currentColor" strokeWidth="1.5" />
+                  </svg>
+                  <span>Reset</span>
+                </button>
+              </div>
             </div>
-          )}
+          </div>
+
+          {/* Results Section */}
+          <div className="ebx__calculator-results">
+            {showResults && results ? (
+              <div className="ebx__results-card">
+                <div className="ebx__results-header">
+                  <SystemIcon />
+                  <h2>Your Solar Solution</h2>
+                  <p>Based on your inputs for {results.stateData.state}</p>
+                </div>
+
+                {/* System Size Highlight */}
+                <div className="ebx__result-highlight">
+                  <div className="ebx__highlight-label">Recommended System</div>
+                  <div className="ebx__highlight-value">{results.systemSize} kW</div>
+                  <div className="ebx__highlight-desc">
+                    <SunIcon />
+                    <span>{results.stateData.solarHours} solar hours available</span>
+                  </div>
+                </div>
+
+                {/* Cost Breakdown */}
+                <div className="ebx__result-section">
+                  <h3>Investment Details</h3>
+                  <div className="ebx__cost-breakdown">
+                    <div className="ebx__cost-item">
+                      <span>System Cost</span>
+                      <strong>₹{results.systemCost.toLocaleString()}</strong>
+                    </div>
+                    <div className="ebx__cost-item ebx__cost-subsidy">
+                      <span>Government Subsidy</span>
+                      <strong>- ₹{results.govtSubsidy.toLocaleString()}</strong>
+                    </div>
+                    <div className="ebx__cost-item ebx__cost-total">
+                      <span>Final Investment</span>
+                      <strong>₹{results.finalCost.toLocaleString()}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Savings & Payback */}
+                <div className="ebx__result-section">
+                  <h3>Savings & Payback</h3>
+                  <div className="ebx__savings-grid">
+                    <div className="ebx__savings-card">
+                      <SavingsIcon />
+                      <div className="ebx__savings-value">₹{results.yearlySavings.toLocaleString()}</div>
+                      <div className="ebx__savings-label">Yearly Savings</div>
+                    </div>
+                    <div className="ebx__savings-card">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="#0ea5e9" strokeWidth="1.5" />
+                        <path d="M12 6V12L16 14" stroke="#0ea5e9" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                      <div className="ebx__savings-value">{results.paybackPeriod} years</div>
+                      <div className="ebx__savings-label">Payback Period</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Environmental Impact */}
+                <div className="ebx__result-section">
+                  <h3>Environmental Impact</h3>
+                  <div className="ebx__impact-grid">
+                    <div className="ebx__impact-item">
+                      <CO2Icon />
+                      <div>
+                        <strong>{results.yearlyCO2Reduction} tons</strong>
+                        <span>CO₂ Reduction/year</span>
+                      </div>
+                    </div>
+                    <div className="ebx__impact-item">
+                      <TreeIcon />
+                      <div>
+                        <strong>{results.treesEquivalent}</strong>
+                        <span>Equivalent Trees</span>
+                      </div>
+                    </div>
+                    <div className="ebx__impact-item">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <rect x="4" y="8" width="16" height="12" rx="1" stroke="#166534" strokeWidth="1.5" />
+                        <path d="M8 6V4H16V6" stroke="#166534" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                      <div>
+                        <strong>{results.fuelSaved} L</strong>
+                        <span>Diesel Saved/year</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Additional Info */}
+                <div className="ebx__result-additional">
+                  <h4>Additional Recommendations</h4>
+                  <ul>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M20 6L9 17L4 12" stroke="#0f766e" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                      Required roof area: {results.requiredRoofArea} sq meters
+                    </li>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M20 6L9 17L4 12" stroke="#0f766e" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                      Battery backup: {results.batteryBackup}
+                    </li>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M20 6L9 17L4 12" stroke="#0f766e" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                      5-year comprehensive warranty
+                    </li>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M20 6L9 17L4 12" stroke="#0f766e" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                      Free site visit & consultation
+                    </li>
+                  </ul>
+                </div>
+
+                {/* CTA Button */}
+                <button className="ebx__btn ebx__btn-consultation">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="2" width="20" height="20" rx="2" stroke="white" strokeWidth="1.5" />
+                    <path d="M7 9H17" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M7 13H14" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M7 17H11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                  <span>Request Free Consultation</span>
+                </button>
+              </div>
+            ) : (
+              <div className="ebx__results-placeholder">
+                <div className="ebx__placeholder-icon">
+                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="#e2e8f0" strokeWidth="1.5" />
+                    <path d="M12 8V12L15 15" stroke="#e2e8f0" strokeWidth="1.5" strokeLinecap="round" />
+                    <rect x="9" y="5" width="6" height="2" fill="#e2e8f0" />
+                    <rect x="5" y="9" width="2" height="6" fill="#e2e8f0" />
+                    <rect x="17" y="9" width="2" height="6" fill="#e2e8f0" />
+                    <rect x="9" y="17" width="6" height="2" fill="#e2e8f0" />
+                  </svg>
+                </div>
+                <h3>Solar Calculator</h3>
+                <p>Enter your electricity bill amount to get instant solar system recommendation for {solarParams[selectedState].state}</p>
+                <div className="ebx__placeholder-features">
+                  <div className="ebx__feature">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M20 6L9 17L4 12" stroke="#0f766e" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    <span>System size calculation</span>
+                  </div>
+                  <div className="ebx__feature">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M20 6L9 17L4 12" stroke="#0f766e" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    <span>Cost & subsidy estimate</span>
+                  </div>
+                  <div className="ebx__feature">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M20 6L9 17L4 12" stroke="#0f766e" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    <span>Savings & payback period</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .ebx__solar-calculator {
+          position: relative;
+          min-height: 100vh;
+          padding: 60px 20px;
+          background: linear-gradient(145deg, #F8FAFC, #F1F5F9);
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          overflow: hidden;
+        }
+
+        /* Animated Background */
+        .ebx__calculator-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+        }
+
+        .ebx__bg-particles {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-image: 
+            radial-gradient(2px 2px at 10px 30px, #FF9500, transparent),
+            radial-gradient(2px 2px at 30px 70px, #0f766e, transparent),
+            radial-gradient(2px 2px at 70px 120px, #64748B, transparent);
+          background-size: 100px 100px;
+          opacity: 0.1;
+          animation: floatParticles 20s linear infinite;
+        }
+
+        .ebx__bg-solar-panels {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 200px;
+          background: linear-gradient(transparent, rgba(15,118,110,0.02));
+          mask-image: url('data:image/svg+xml;utf8,<svg width="60" height="30" viewBox="0 0 60 30"><rect width="12" height="12" x="0" y="0" fill="black"/><rect width="12" height="12" x="16" y="0" fill="black"/><rect width="12" height="12" x="32" y="0" fill="black"/><rect width="12" height="12" x="48" y="0" fill="black"/><rect width="12" height="12" x="0" y="16" fill="black"/><rect width="12" height="12" x="16" y="16" fill="black"/><rect width="12" height="12" x="32" y="16" fill="black"/><rect width="12" height="12" x="48" y="16" fill="black"/></svg>');
+          mask-size: 60px 30px;
+          opacity: 0.05;
+        }
+
+        .ebx__bg-sun {
+          position: absolute;
+          top: 10%;
+          right: 10%;
+          width: 200px;
+          height: 200px;
+          background: radial-gradient(circle, rgba(255,149,0,0.05) 0%, transparent 70%);
+          animation: pulseSun 4s ease-in-out infinite;
+        }
+
+        @keyframes floatParticles {
+          0% { transform: translateY(0) translateX(0); }
+          100% { transform: translateY(-30px) translateX(20px); }
+        }
+
+        @keyframes pulseSun {
+          0%, 100% { opacity: 0.05; transform: scale(1); }
+          50% { opacity: 0.1; transform: scale(1.1); }
+        }
+
+        .ebx__calculator-container {
+          max-width: 1280px;
+          margin: 0 auto;
+          position: relative;
+          z-index: 10;
+        }
+
+        /* Header Styles */
+        .ebx__calculator-header {
+          text-align: center;
+          margin-bottom: 50px;
+        }
+
+        .ebx__header-icon {
+          display: inline-block;
+          margin-bottom: 20px;
+          animation: rotateSun 20s linear infinite;
+        }
+
+        @keyframes rotateSun {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        .ebx__header-title {
+          font-size: 42px;
+          font-weight: 700;
+          color: #1E3A5F;
+          margin-bottom: 15px;
+        }
+
+        .ebx__header-title span {
+          color: #FF9500;
+          position: relative;
+        }
+
+        .ebx__header-title span::after {
+          content: '';
+          position: absolute;
+          bottom: 5px;
+          left: 0;
+          width: 100%;
+          height: 10px;
+          background: rgba(255,149,0,0.2);
+          z-index: -1;
+        }
+
+        .ebx__header-subtitle {
+          font-size: 18px;
+          color: #64748B;
+          margin: 0;
+        }
+
+        /* Main Grid */
+        .ebx__calculator-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 30px;
+        }
+
+        /* Form Styles */
+        .ebx__calculator-form {
+          background: white;
+          border-radius: 32px;
+          padding: 35px;
+          box-shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+          border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .ebx__form-header {
+          margin-bottom: 30px;
+        }
+
+        .ebx__form-header h2 {
+          font-size: 24px;
+          font-weight: 700;
+          color: #1E3A5F;
+          margin-bottom: 8px;
+        }
+
+        .ebx__form-header p {
+          color: #64748B;
+          margin: 0;
+        }
+
+        .ebx__form-content {
+          display: flex;
+          flex-direction: column;
+          gap: 25px;
+        }
+
+        .ebx__form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .ebx__form-label {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-weight: 600;
+          color: #1E3A5F;
+          font-size: 15px;
+        }
+
+        .ebx__label-optional {
+          font-size: 12px;
+          font-weight: 400;
+          color: #94A3B8;
+          margin-left: 8px;
+        }
+
+        .ebx__form-input {
+          padding: 14px 16px;
+          background: #F8FAFC;
+          border: 1.5px solid rgba(0,0,0,0.05);
+          border-radius: 16px;
+          font-size: 15px;
+          color: #1E3A5F;
+          transition: all 0.3s ease;
+        }
+
+        .ebx__form-input:focus {
+          outline: none;
+          border-color: #0f766e;
+          background: white;
+          box-shadow: 0 0 0 4px rgba(15,118,110,0.08);
+        }
+
+        .ebx__form-hint {
+          font-size: 12px;
+          color: #94A3B8;
+        }
+
+        .ebx__location-selector {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .ebx__form-select {
+          padding: 14px 16px;
+          background: #F8FAFC;
+          border: 1.5px solid rgba(0,0,0,0.05);
+          border-radius: 16px;
+          font-size: 15px;
+          color: #1E3A5F;
+          cursor: pointer;
+        }
+
+        .ebx__location-info {
+          display: flex;
+          gap: 20px;
+          padding: 12px 16px;
+          background: rgba(15,118,110,0.04);
+          border-radius: 12px;
+        }
+
+        .ebx__info-item {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 13px;
+        }
+
+        .ebx__info-item span {
+          color: #64748B;
+        }
+
+        .ebx__info-item strong {
+          color: #0f766e;
+        }
+
+        .ebx__usage-selector {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .ebx__usage-option {
+          display: flex;
+          align-items: center;
+          padding: 16px;
+          background: #F8FAFC;
+          border: 1.5px solid rgba(0,0,0,0.05);
+          border-radius: 16px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .ebx__usage-option.active {
+          border-color: #0f766e;
+          background: rgba(15,118,110,0.04);
+        }
+
+        .ebx__usage-option input {
+          margin-right: 12px;
+          accent-color: #0f766e;
+        }
+
+        .ebx__usage-name {
+          font-weight: 600;
+          color: #1E3A5F;
+          min-width: 60px;
+        }
+
+        .ebx__usage-desc {
+          font-size: 13px;
+          color: #64748B;
+        }
+
+        .ebx__form-actions {
+          display: flex;
+          gap: 15px;
+          margin-top: 10px;
+        }
+
+        .ebx__btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          padding: 16px 24px;
+          border: none;
+          border-radius: 60px;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .ebx__btn-primary {
+          flex: 1;
+          background: linear-gradient(145deg, #0f766e, #0d9488);
+          color: white;
+        }
+
+        .ebx__btn-primary:hover:not(:disabled) {
+          transform: translateY(-3px);
+          box-shadow: 0 20px 40px -10px rgba(15,118,110,0.4);
+        }
+
+        .ebx__btn-primary:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .ebx__btn-secondary {
+          background: transparent;
+          border: 1.5px solid rgba(0,0,0,0.1);
+          color: #64748B;
+        }
+
+        .ebx__btn-secondary:hover {
+          background: rgba(0,0,0,0.02);
+          border-color: #0f766e;
+          color: #0f766e;
+        }
+
+        /* Results Styles */
+        .ebx__calculator-results {
+          position: relative;
+        }
+
+        .ebx__results-card {
+          background: white;
+          border-radius: 32px;
+          padding: 35px;
+          box-shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+          border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .ebx__results-header {
+          text-align: center;
+          margin-bottom: 30px;
+        }
+
+        .ebx__results-header h2 {
+          font-size: 24px;
+          color: #1E3A5F;
+          margin: 15px 0 5px;
+        }
+
+        .ebx__results-header p {
+          color: #64748B;
+          margin: 0;
+        }
+
+        .ebx__result-highlight {
+          background: linear-gradient(145deg, #f0fdfa, #ccfbf1);
+          border: 2px solid #99f6e4;
+          border-radius: 24px;
+          padding: 25px;
+          text-align: center;
+          margin-bottom: 30px;
+        }
+
+        .ebx__highlight-label {
+          font-size: 14px;
+          font-weight: 600;
+          color: #0f766e;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          margin-bottom: 10px;
+        }
+
+        .ebx__highlight-value {
+          font-size: 48px;
+          font-weight: 800;
+          color: #0f766e;
+          line-height: 1;
+          margin-bottom: 15px;
+        }
+
+        .ebx__highlight-desc {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          color: #64748B;
+          font-size: 14px;
+        }
+
+        .ebx__result-section {
+          margin-bottom: 30px;
+        }
+
+        .ebx__result-section h3 {
+          font-size: 18px;
+          font-weight: 600;
+          color: #1E3A5F;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .ebx__cost-breakdown {
+          background: #F8FAFC;
+          border-radius: 20px;
+          padding: 20px;
+        }
+
+        .ebx__cost-item {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px 0;
+        }
+
+        .ebx__cost-item:not(:last-child) {
+          border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .ebx__cost-subsidy {
+          color: #059669;
+        }
+
+        .ebx__cost-total {
+          font-size: 18px;
+          color: #0f766e;
+          padding-top: 15px;
+        }
+
+        .ebx__savings-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 15px;
+        }
+
+        .ebx__savings-card {
+          background: #f0f9ff;
+          border-radius: 16px;
+          padding: 20px;
+          text-align: center;
+        }
+
+        .ebx__savings-value {
+          font-size: 24px;
+          font-weight: 700;
+          color: #0ea5e9;
+          margin: 10px 0 5px;
+        }
+
+        .ebx__savings-label {
+          font-size: 13px;
+          color: #64748B;
+        }
+
+        .ebx__impact-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .ebx__impact-item {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          padding: 15px;
+          background: #f0fdf4;
+          border-radius: 16px;
+        }
+
+        .ebx__impact-item div {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .ebx__impact-item strong {
+          font-size: 16px;
+          color: #166534;
+        }
+
+        .ebx__impact-item span {
+          font-size: 13px;
+          color: #64748B;
+        }
+
+        .ebx__result-additional {
+          background: #fffbeb;
+          border-radius: 20px;
+          padding: 20px;
+          margin-bottom: 25px;
+        }
+
+        .ebx__result-additional h4 {
+          font-size: 16px;
+          color: #92400e;
+          margin-bottom: 15px;
+        }
+
+        .ebx__result-additional ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .ebx__result-additional li {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: #92400e;
+          font-size: 14px;
+          margin-bottom: 10px;
+        }
+
+        .ebx__btn-consultation {
+          width: 100%;
+          background: linear-gradient(145deg, #f59e0b, #d97706);
+          color: white;
+        }
+
+        .ebx__btn-consultation:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 20px 40px -10px rgba(245,158,11,0.4);
+        }
+
+        /* Placeholder Styles */
+        .ebx__results-placeholder {
+          background: white;
+          border-radius: 32px;
+          padding: 50px 35px;
+          text-align: center;
+          box-shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
+          border: 1px solid rgba(0,0,0,0.05);
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .ebx__placeholder-icon {
+          margin-bottom: 30px;
+          opacity: 0.5;
+        }
+
+        .ebx__results-placeholder h3 {
+          font-size: 24px;
+          color: #1E3A5F;
+          margin-bottom: 15px;
+        }
+
+        .ebx__results-placeholder p {
+          color: #64748B;
+          max-width: 300px;
+          margin: 0 auto 30px;
+        }
+
+        .ebx__placeholder-features {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          text-align: left;
+        }
+
+        .ebx__feature {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          color: #0f766e;
+          font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+          .ebx__calculator-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .ebx__header-title {
+            font-size: 36px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .ebx__solar-calculator {
+            padding: 40px 16px;
+          }
+
+          .ebx__calculator-form,
+          .ebx__results-card,
+          .ebx__results-placeholder {
+            padding: 25px;
+          }
+
+          .ebx__form-actions {
+            flex-direction: column;
+          }
+
+          .ebx__location-info {
+            flex-direction: column;
+            gap: 8px;
+          }
+
+          .ebx__usage-option {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+          }
+
+          .ebx__usage-name {
+            min-width: auto;
+          }
+
+          .ebx__savings-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .ebx__header-title {
+            font-size: 28px;
+          }
+
+          .ebx__calculator-form,
+          .ebx__results-card,
+          .ebx__results-placeholder {
+            padding: 20px;
+          }
+
+          .ebx__highlight-value {
+            font-size: 36px;
+          }
+        }
+      `}</style>
     </div>
   );
 };
