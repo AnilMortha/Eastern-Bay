@@ -180,15 +180,15 @@ const Header = () => {
                   <span className="ebz__navArrow">{solarIcons.arrowDown}</span>
                 </span>
                 <div className="ebz__drop">
-                  <Link to="/solar_calculator" className="ebz__dropItem">
+                  <Link to="/residential" className="ebz__dropItem">
                     <span className="ebz__dropIcon">{solarIcons.building}</span>
                     <span className="ebz__dropText">Residential</span>
                   </Link>
-                  <Link to="/solar_calculator" className="ebz__dropItem">
+                  <Link to="/commercial" className="ebz__dropItem">
                     <span className="ebz__dropIcon">{solarIcons.building}</span>
                     <span className="ebz__dropText">Commercial</span>
                   </Link>
-                  <Link to="/solar_calculator" className="ebz__dropItem">
+                  <Link to="/Industrial" className="ebz__dropItem">
                     <span className="ebz__dropIcon">{solarIcons.building}</span>
                     <span className="ebz__dropText">Industrial</span>
                   </Link>

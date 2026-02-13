@@ -1,6 +1,6 @@
 import React from "react";
 
-const HousingSociety = () => {
+const Industrial = () => {
   return (
     <section className="housing-section">
       <div className="container">
@@ -163,4 +163,4 @@ const HousingSociety = () => {
   );
 };
 
-export default HousingSociety;
+export default Industrial;
