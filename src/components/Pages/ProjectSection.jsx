@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 
 const ProjectSection = () => {
+  const [activeCategory, setActiveCategory] = useState("all");
+
+  const categories = [
+    { id: "all", label: "All Projects", icon: "fa-regular fa-grid-2" },
+    { id: "residential", label: "Residential", icon: "fa-regular fa-house" },
+    { id: "commercial", label: "Commercial", icon: "fa-regular fa-building" },
+    { id: "industrial", label: "Industrial", icon: "fa-regular fa-factory" },
+  ];
+
   const projects = [
+    // Residential Projects
     {
       id: 1,
-      title: "విశాఖపట్నం - 10kW Residential",
+      category: "residential",
+      title: "Visakhapatnam - 10kW Villa",
       location: "Visakhapatnam",
-      img: "/assets/img/project/project_1_1.jpg",
+      img: "/assets/img/project/residential-1.jpg",
       description:
         "Complete off-grid solar system for a 4BHK home. Zero electricity bills since installation. NEDCAP approved installation.",
       stats: [
@@ -15,12 +26,48 @@ const ProjectSection = () => {
         { number: "2024", label: "", text: "Installed" },
         { number: "5.2", label: "yr", text: "Payback" },
       ],
+      features: ["Battery Backup", "Net Metering", "5 Year Warranty"],
     },
     {
       id: 2,
-      title: "విజయవాడ - Textile Unit",
+      category: "residential",
+      title: "Guntur - 5kW Independent House",
+      location: "Guntur",
+      img: "/assets/img/project/residential-2.jpg",
+      description:
+        "On-grid solar system for 3BHK house. Monthly electricity bill reduced from ₹4,500 to ₹300.",
+      stats: [
+        { number: "5", label: "kW", text: "System Size" },
+        { number: "₹4.2", label: "k", text: "Monthly Save" },
+        { number: "2024", label: "", text: "Installed" },
+        { number: "4.5", label: "yr", text: "Payback" },
+      ],
+      features: ["On-Grid", "DISCOM Approved", "LED Display"],
+    },
+    {
+      id: 3,
+      category: "residential",
+      title: "Rajahmundry - 8kW Duplex",
+      location: "Rajahmundry",
+      img: "/assets/img/project/residential-3.jpg",
+      description:
+        "Hybrid solar system with battery backup. Powers entire home including 2 ACs and geyser.",
+      stats: [
+        { number: "8", label: "kW", text: "System Size" },
+        { number: "₹6.5", label: "k", text: "Monthly Save" },
+        { number: "2023", label: "", text: "Installed" },
+        { number: "4.8", label: "yr", text: "Payback" },
+      ],
+      features: ["Hybrid System", "Lithium Battery", "Remote Monitoring"],
+    },
+
+    // Commercial Projects
+    {
+      id: 4,
+      category: "commercial",
+      title: "Vijayawada - Textile Unit",
       location: "Vijayawada",
-      img: "/assets/img/project/project_1_2.jpg",
+      img: "/assets/img/project/commercial-1.jpg",
       description:
         "25kW on-grid system for textile manufacturing. 40% reduction in operational costs. DISCOM net meter installed.",
       stats: [
@@ -29,22 +76,101 @@ const ProjectSection = () => {
         { number: "2023", label: "", text: "Installed" },
         { number: "3.8", label: "yr", text: "Payback" },
       ],
+      features: ["Net Metering", "Tax Benefits", "AMS"],
     },
     {
-      id: 3,
-      title: "తిరుపతి - Housing Society",
+      id: 5,
+      category: "commercial",
+      title: "Tirupati - Shopping Mall",
       location: "Tirupati",
-      img: "/assets/img/project/project_1_3.jpg",
+      img: "/assets/img/project/commercial-2.jpg",
       description:
-        "50kW community solar project for 20+ families. Common area lighting & borewell pumps. AP government subsidy availed.",
+        "50kW rooftop solar for shopping complex. Powers common areas, 20+ shops, and parking lighting.",
       stats: [
         { number: "50", label: "kW", text: "System Size" },
         { number: "₹45", label: "k", text: "Monthly Save" },
         { number: "2024", label: "", text: "Installed" },
         { number: "4.1", label: "yr", text: "Payback" },
       ],
+      features: ["Rooftop", "3-Phase System", "Generation Based"],
+    },
+    {
+      id: 6,
+      category: "commercial",
+      title: "Visakhapatnam - Hotel",
+      location: "Visakhapatnam",
+      img: "/assets/img/project/commercial-3.jpg",
+      description:
+        "30kW solar system for 3-star hotel. Powers rooms, restaurant, and swimming pool pumps.",
+      stats: [
+        { number: "30", label: "kW", text: "System Size" },
+        { number: "₹28", label: "k", text: "Monthly Save" },
+        { number: "2023", label: "", text: "Installed" },
+        { number: "4.2", label: "yr", text: "Payback" },
+      ],
+      features: ["Hybrid", "Backup", "Green Certification"],
+    },
+
+    // Industrial Projects
+    {
+      id: 7,
+      category: "industrial",
+      title: "Kakinada - Rice Mill",
+      location: "Kakinada",
+      img: "/assets/img/project/industrial-1.jpg",
+      description:
+        "100kW ground-mounted solar for rice mill. Powers entire milling operations and storage units.",
+      stats: [
+        { number: "100", label: "kW", text: "System Size" },
+        { number: "₹85", label: "k", text: "Monthly Save" },
+        { number: "2024", label: "", text: "Installed" },
+        { number: "3.2", label: "yr", text: "Payback" },
+      ],
+      features: ["Ground Mount", "High Voltage", "SCADA"],
+    },
+    {
+      id: 8,
+      category: "industrial",
+      title: "Nellore - Poultry Farm",
+      location: "Nellore",
+      img: "/assets/img/project/industrial-2.jpg",
+      description:
+        "40kW solar system for poultry farm. Powers ventilation, lighting, and automated feeding systems.",
+      stats: [
+        { number: "40", label: "kW", text: "System Size" },
+        { number: "₹35", label: "k", text: "Monthly Save" },
+        { number: "2023", label: "", text: "Installed" },
+        { number: "3.9", label: "yr", text: "Payback" },
+      ],
+      features: ["AMF", "Temperature Control", "Auto Tracking"],
+    },
+    {
+      id: 9,
+      category: "industrial",
+      title: "Anakapalle - Manufacturing",
+      location: "Anakapalle",
+      img: "/assets/img/project/industrial-3.jpg",
+      description:
+        "150kW industrial solar plant for manufacturing unit. Powers heavy machinery and workshop.",
+      stats: [
+        { number: "150", label: "kW", text: "System Size" },
+        { number: "₹1.2", label: "L", text: "Monthly Save" },
+        { number: "2024", label: "", text: "Installed" },
+        { number: "3.5", label: "yr", text: "Payback" },
+      ],
+      features: ["HT Connection", "Power Factor", "Remote Mgmt"],
     },
   ];
+
+  const filteredProjects = activeCategory === "all" 
+    ? projects 
+    : projects.filter(project => project.category === activeCategory);
+
+  // Category wise counts
+  const getCount = (category) => {
+    if (category === "all") return projects.length;
+    return projects.filter(p => p.category === category).length;
+  };
 
   return (
     <section
@@ -62,18 +188,47 @@ const ProjectSection = () => {
               </h2>
               <p className="eby-text">
                 From Vizag to Tirupati — 2000+ happy customers. 
-                See what we've installed for homes & businesses across AP.
+                See what we've installed for homes, businesses & industries across AP.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Projects Grid - Same Old Design, AP Content */}
+        {/* Category Filter */}
+        <div className="row">
+          <div className="col-12">
+            <div className="eby-category-filter text-center mb-40">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  className={`eby-category-btn ${activeCategory === category.id ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(category.id)}
+                >
+                  <i className={category.icon}></i>
+                  <span>{category.label}</span>
+                  <span className="eby-count">({getCount(category.id)})</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Projects Grid */}
         <div className="row gy-4">
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <div key={project.id} className="col-md-6 col-lg-4">
               <div className="eby-project-card">
                 
+                {/* Category Badge */}
+                <div className="eby-category-badge">
+                  <i className={
+                    project.category === "residential" ? "fa-regular fa-house" :
+                    project.category === "commercial" ? "fa-regular fa-building" :
+                    "fa-regular fa-factory"
+                  }></i>
+                  <span>{project.category.charAt(0).toUpperCase() + project.category.slice(1)}</span>
+                </div>
+
                 {/* Image */}
                 <div className="eby-project-img">
                   <img src={project.img} alt={project.title} />
@@ -90,7 +245,14 @@ const ProjectSection = () => {
                   
                   <p className="eby-project-desc">{project.description}</p>
 
-                  {/* Stats - Same Style, AP Numbers */}
+                  {/* Features Chips */}
+                  <div className="eby-project-features">
+                    {project.features.slice(0, 3).map((feature, index) => (
+                      <span key={index} className="eby-feature-chip">{feature}</span>
+                    ))}
+                  </div>
+
+                  {/* Stats */}
                   <div className="eby-project-stats">
                     {project.stats.map((stat, i) => (
                       <div className="eby-stat-item" key={i}>
@@ -103,10 +265,10 @@ const ProjectSection = () => {
                     ))}
                   </div>
 
-                  {/* Button - Same Style */}
+                  {/* Button */}
                   <div className="eby-project-btn mt-30">
-                    <a href="/projects" className="eby-th-btn">
-                      <span>View Case Study</span>
+                    <a href={`/project/${project.id}`} className="eby-th-btn">
+                      <span>View Details</span>
                       <i className="fa-regular fa-arrow-right ms-2"></i>
                     </a>
                   </div>
@@ -115,6 +277,19 @@ const ProjectSection = () => {
             </div>
           ))}
         </div>
+
+        {/* No Results Message */}
+        {filteredProjects.length === 0 && (
+          <div className="row">
+            <div className="col-12">
+              <div className="eby-no-results text-center py-5">
+                <i className="fa-regular fa-circle-exclamation fa-2x mb-3" style={{ color: '#FF9500' }}></i>
+                <h4>No projects found in this category</h4>
+                <p className="text-muted">Check back soon for new installations</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* View All Link */}
         <div className="row">
@@ -130,8 +305,7 @@ const ProjectSection = () => {
       </div>
 
       <style jsx>{`
-        /* ===== EASTERN BEY - PROJECT SECTION ===== */
-        /* Old Design Maintained - Content Changed */
+        /* ===== EASTERN BAY - PROJECT SECTION ===== */
         
         .eby-project-area {
           padding: 80px 0;
@@ -139,7 +313,7 @@ const ProjectSection = () => {
           font-family: 'Inter', sans-serif;
         }
 
-        /* Title Area - Same Style */
+        /* Title Area */
         .eby-title-area {
           margin-bottom: 50px;
         }
@@ -177,7 +351,87 @@ const ProjectSection = () => {
           margin: 0 auto;
         }
 
-        /* Project Card - Same Old Design */
+        /* Category Filter */
+        .eby-category-filter {
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          flex-wrap: wrap;
+          margin-bottom: 40px;
+        }
+
+        .eby-category-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 24px;
+          border: 1px solid rgba(0, 0, 0, 0.08);
+          background: white;
+          border-radius: 40px;
+          font-size: 15px;
+          font-weight: 500;
+          color: #64748B;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .eby-category-btn i {
+          font-size: 14px;
+          color: #FF9500;
+        }
+
+        .eby-category-btn .eby-count {
+          font-size: 12px;
+          color: #94A3B8;
+          margin-left: 4px;
+        }
+
+        .eby-category-btn:hover {
+          border-color: #FF9500;
+          color: #0B1A2E;
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(255, 149, 0, 0.1);
+        }
+
+        .eby-category-btn.active {
+          background: #FF9500;
+          color: white;
+          border-color: #FF9500;
+        }
+
+        .eby-category-btn.active i {
+          color: white;
+        }
+
+        .eby-category-btn.active .eby-count {
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Category Badge on Cards */
+        .eby-category-badge {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: rgba(255, 255, 255, 0.95);
+          padding: 6px 14px;
+          border-radius: 30px;
+          font-size: 12px;
+          font-weight: 600;
+          color: #0B1A2E;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          backdrop-filter: blur(4px);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+          z-index: 2;
+        }
+
+        .eby-category-badge i {
+          color: #FF9500;
+          font-size: 11px;
+        }
+
+        /* Project Card */
         .eby-project-card {
           background: white;
           border-radius: 16px;
@@ -186,6 +440,7 @@ const ProjectSection = () => {
           transition: all 0.3s ease;
           height: 100%;
           border: 1px solid rgba(0, 0, 0, 0.03);
+          position: relative;
         }
 
         .eby-project-card:hover {
@@ -263,7 +518,25 @@ const ProjectSection = () => {
           margin-bottom: 20px;
         }
 
-        /* Stats - Same Grid Style */
+        /* Features Chips */
+        .eby-project-features {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 20px;
+        }
+
+        .eby-feature-chip {
+          background: rgba(255, 149, 0, 0.08);
+          color: #FF9500;
+          font-size: 11px;
+          font-weight: 600;
+          padding: 4px 10px;
+          border-radius: 20px;
+          letter-spacing: 0.3px;
+        }
+
+        /* Stats */
         .eby-project-stats {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
@@ -303,7 +576,7 @@ const ProjectSection = () => {
           margin: 0;
         }
 
-        /* Button - Same Style */
+        /* Button */
         .eby-th-btn {
           display: inline-flex;
           align-items: center;
@@ -359,6 +632,19 @@ const ProjectSection = () => {
           transform: translateX(5px);
         }
 
+        /* No Results */
+        .eby-no-results {
+          padding: 60px 20px;
+          background: white;
+          border-radius: 20px;
+          border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .eby-no-results h4 {
+          color: #0B1A2E;
+          margin-bottom: 10px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
           .eby-project-area {
@@ -367,6 +653,15 @@ const ProjectSection = () => {
 
           .eby-sec-title {
             font-size: 28px;
+          }
+
+          .eby-category-filter {
+            gap: 10px;
+          }
+
+          .eby-category-btn {
+            padding: 10px 18px;
+            font-size: 13px;
           }
 
           .eby-project-stats {
@@ -387,6 +682,16 @@ const ProjectSection = () => {
 
           .eby-sub-title {
             font-size: 12px;
+          }
+
+          .eby-category-filter {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 0 20px;
+          }
+
+          .eby-category-btn {
+            justify-content: center;
           }
         }
       `}</style>

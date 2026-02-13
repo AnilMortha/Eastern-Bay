@@ -1,0 +1,356 @@
+/* ap-solar-services.css */
+
+.ap-solar-container {
+  height: 85vh;
+  width: 100%;
+  display: flex;
+  gap: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Sidebar Styles */
+.ap-solar-sidebar {
+  width: 360px;
+  padding: 20px;
+  border-right: 1px solid #e2e8f0;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.ap-solar-header {
+  margin-bottom: 24px;
+}
+
+.ap-solar-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.ap-solar-icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.ap-solar-title {
+  margin: 0;
+  color: #059669;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.ap-solar-subtitle {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  padding-left: 40px;
+}
+
+.ap-solar-coverage-banner {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #a7f3d0;
+}
+
+.ap-solar-coverage-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.ap-solar-coverage-icon {
+  display: flex;
+  align-items: center;
+}
+
+.ap-solar-coverage-text {
+  color: #065f46;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ap-solar-coverage-description {
+  margin: 0;
+  color: #047857;
+  font-size: 13px;
+  padding-left: 30px;
+}
+
+.ap-solar-filter-section {
+  margin-bottom: 20px;
+}
+
+.ap-solar-filter-label {
+  display: block;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.ap-solar-filter-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: white;
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ap-solar-filter-select:hover {
+  border-color: #059669;
+}
+
+.ap-solar-filter-select:focus {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+}
+
+.ap-solar-locations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ap-solar-location-card {
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.ap-solar-location-card:hover {
+  border-color: #059669;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);
+  transform: translateY(-2px);
+}
+
+.ap-solar-location-card-active {
+  border: 2px solid #059669;
+  background-color: #f0fdf4;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+}
+
+.ap-solar-location-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.ap-solar-location-name {
+  font-weight: 700;
+  color: #065f46;
+  font-size: 16px;
+}
+
+.ap-solar-premium-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #fef3c7;
+  color: #b45309;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.ap-solar-location-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ap-solar-location-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.ap-solar-location-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ap-solar-service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.ap-service-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #f0f9ff;
+  color: #0369a1;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid #bae6fd;
+}
+
+.ap-service-tag-icon {
+  display: flex;
+  align-items: center;
+}
+
+.ap-solar-service-more {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.ap-solar-contact-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 6px 0;
+}
+
+.ap-solar-contact-icon {
+  display: flex;
+  align-items: center;
+}
+
+.ap-solar-contact-number {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Map Section Styles */
+.ap-solar-map-section {
+  flex: 1;
+  position: relative;
+}
+
+.ap-solar-map-header {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+  background-color: white;
+  padding: 10px 16px;
+  border-radius: 30px;
+  border: 1px solid #e2e8f0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #065f46;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.ap-solar-map-header-icon {
+  display: flex;
+  align-items: center;
+}
+
+.ap-solar-map-header-text {
+  letter-spacing: 0.3px;
+}
+
+.ap-solar-map-container {
+  height: 100%;
+  width: 100%;
+}
+
+/* Popup Styles */
+.ap-solar-popup {
+  min-width: 240px;
+}
+
+.ap-solar-popup-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #065f46;
+  margin: 0 0 8px 0;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #ecfdf5;
+}
+
+.ap-solar-popup-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  color: #4b5563;
+  font-size: 13px;
+  margin: 0 0 12px 0;
+}
+
+.ap-solar-popup-services {
+  margin-bottom: 12px;
+}
+
+.ap-solar-popup-services-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 6px 0;
+}
+
+.ap-solar-popup-service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ap-solar-popup-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #eff6ff;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  margin-top: 8px;
+}
+
+/* Scrollbar Styling */
+.ap-solar-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ap-solar-sidebar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.ap-solar-sidebar::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 10px;
+}
+
+.ap-solar-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}

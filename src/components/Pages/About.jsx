@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const About = () => {
-  // Andhra Pradesh districts served
+  // Andhra Pradesh districts served - Now in English
   const apDistricts = [
-    "తూర్పు గోదావరి", "పశ్చిమ గోదావరి", "విశాఖపట్నం", 
-    "విజయవాడ", "గుంటూరు", "నెల్లూరు", "తిరుపతి",
-    "కాకినాడ", "రాజమండ్రి", "విజయనగరం"
+    "East Godavari", "West Godavari", "Visakhapatnam", 
+    "Vijayawada", "Guntur", "Nellore", "Tirupati",
+    "Kakinada", "Rajahmundry", "Vizianagaram"
   ];
 
   return (
@@ -45,13 +45,13 @@ const About = () => {
           {/* Right - Content */}
           <div className="eby__content">
             
-            {/* Service Message - Pure Telugu for Telugu text */}
+            {/* Service Message - Now in English */}
             <div className="eby__message">
-              <h3>ఈస్ట్రన్ బే సోలార్</h3>
-              <p className="eby__teluguText">
-                <span className="eby__highlight">ఆంధ్రప్రదేశ్ లో మా సర్వీస్ ఓకేనా?</span> — ఖచ్చితంగా, అవును. 
-                మేము విశాఖపట్నంలో ప్రధాన కార్యాలయంతో కోస్తా, రాయలసీమ మరియు 
-                మొత్తం 13 జిల్లాల్లో సేవలు అందిస్తున్నాము.
+              <h3>EasternBay Solar</h3>
+              <p className="eby__englishText">
+                <span className="eby__highlight">Is our service available in Andhra Pradesh?</span> — Absolutely, yes. 
+                With our headquarters in Visakhapatnam, we serve Coastal Andhra, 
+                Rayalaseema and all 13 districts across the state.
               </p>
             </div>
 
@@ -105,7 +105,7 @@ const About = () => {
           </div>
         </div>
 
-        {/* AP Districts Strip - Pure Telugu */}
+        {/* AP Districts Strip - Now in English */}
         <div className="eby__strip">
           <div className="eby__stripTrack">
             {apDistricts.map((district, index) => (
@@ -121,14 +121,14 @@ const About = () => {
           </div>
         </div>
 
-        {/* Additional Telugu Message - Pure Telugu at bottom */}
-        <div className="eby__teluguFooter">
-          <div className="eby__teluguBox">
+        {/* Additional Message - Now in English */}
+        <div className="eby__englishFooter">
+          <div className="eby__englishBox">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" stroke="#FF9500" strokeWidth="1.5"/>
               <path d="M12 8V12L15 15" stroke="#FF9500" strokeWidth="1.5"/>
             </svg>
-            <span>మీ ఇంటికే ఉచిత సైట్ విజిట్ — ఈ వారమే బుక్ చేసుకోండి</span>
+            <span>Free site visit at your home — Book this week</span>
           </div>
         </div>
 
@@ -140,11 +140,11 @@ const About = () => {
         
         .eby__about {
           padding: 80px 0;
-background: linear-gradient(
-  90deg,
-  rgba(135, 206, 250, 0.4),
-  rgba(255, 183, 77, 0.4)
-);
+          background: linear-gradient(
+            90deg,
+            rgba(135, 206, 250, 0.4),
+            rgba(255, 183, 77, 0.4)
+          );
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
           position: relative;
           overflow: hidden;
@@ -274,13 +274,13 @@ background: linear-gradient(
           margin-bottom: 16px;
         }
 
-        /* Pure Telugu Text - Using actual Telugu script */
-        .eby__teluguText {
+        /* English Text */
+        .eby__englishText {
           font-size: 18px;
           line-height: 1.8;
           color: #475569;
           margin-bottom: 30px;
-          font-family: 'Noto Sans Telugu', 'Segoe UI', sans-serif;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
           letter-spacing: 0.3px;
         }
 
@@ -364,7 +364,7 @@ background: linear-gradient(
           transform: translateX(5px);
         }
 
-        /* ===== AP DISTRICTS STRIP - PURE TELUGU ===== */
+        /* ===== AP DISTRICTS STRIP - NOW IN ENGLISH ===== */
         .eby__strip {
           background: #F8FAFC;
           padding: 16px 0;
@@ -388,7 +388,7 @@ background: linear-gradient(
           font-size: 16px;
           font-weight: 500;
           color: #1E293B;
-          font-family: 'Noto Sans Telugu', 'Segoe UI', sans-serif;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         .eby__dot {
@@ -397,14 +397,14 @@ background: linear-gradient(
           font-size: 12px;
         }
 
-        /* ===== TELUGU FOOTER - PURE TELUGU ===== */
-        .eby__teluguFooter {
+        /* ===== ENGLISH FOOTER ===== */
+        .eby__englishFooter {
           display: flex;
           justify-content: center;
           margin-top: 20px;
         }
 
-        .eby__teluguBox {
+        .eby__englishBox {
           display: flex;
           align-items: center;
           gap: 14px;
@@ -415,11 +415,11 @@ background: linear-gradient(
           box-shadow: 0 5px 15px rgba(255, 149, 0, 0.05);
         }
 
-        .eby__teluguBox span {
+        .eby__englishBox span {
           font-size: 18px;
           font-weight: 500;
           color: #0B1A2E;
-          font-family: 'Noto Sans Telugu', 'Segoe UI', sans-serif;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
           letter-spacing: 0.5px;
         }
 
@@ -481,11 +481,11 @@ background: linear-gradient(
             justify-content: center;
           }
 
-          .eby__teluguText {
+          .eby__englishText {
             font-size: 16px;
           }
 
-          .eby__teluguBox span {
+          .eby__englishBox span {
             font-size: 16px;
           }
         }
@@ -509,7 +509,7 @@ background: linear-gradient(
             padding: 0 16px;
           }
 
-          .eby__teluguBox {
+          .eby__englishBox {
             padding: 14px 24px;
             text-align: center;
           }
