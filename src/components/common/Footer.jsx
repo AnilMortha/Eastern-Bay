@@ -120,23 +120,23 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="">
+                    <Link to="/OnGridSolar">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5"/>
                       </svg>
                       On-Grid
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to="">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5"/>
                       </svg>
                       Blog
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
-                    <Link to="">
+                    <Link to="/Appointment">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5"/>
                       </svg>
@@ -163,45 +163,30 @@ const Footer = () => {
               <div className="ebx__widget-content">
                 <ul className="ebx__footer-links">
                   <li>
-                    <a href="service.html">
+                    <a href="/residential">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5"/>
                       </svg>
-                      Renewable Energy
+                      Residential
                     </a>
                   </li>
                   <li>
-                    <a href="service.html">
+                    <a href="/commercial">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5"/>
                       </svg>
-                      Wind Generator
+                      Commercial
                     </a>
                   </li>
                   <li>
-                    <a href="service.html">
+                    <a href="/industrial">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5"/>
                       </svg>
-                      Solar Energy
+                      Industrial
                     </a>
                   </li>
-                  <li>
-                    <a href="service.html">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5"/>
-                      </svg>
-                      Hydropower Energy
-                    </a>
-                  </li>
-                  <li>
-                    <a href="service.html">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5"/>
-                      </svg>
-                      Eco Maintenance
-                    </a>
-                  </li>
+                  
                 </ul>
                 {/* <div className="ebx__service-image">
                   <img src="assets/img/solar-panel-small.png" alt="Solar Service" />

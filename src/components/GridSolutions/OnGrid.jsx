@@ -172,9 +172,9 @@ const OnGrid = () => {
                 <span>Get Free Quote</span>
                 {icons.arrow}
               </Link>
-              <Link to="/contact" className="ebg__btn ebg__btn--secondary">
+              {/* <Link to="/contact" className="ebg__btn ebg__btn--secondary">
                 <span>Talk to Expert</span>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

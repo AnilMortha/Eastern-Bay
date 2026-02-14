@@ -4,6 +4,66 @@ import { Link } from "react-router-dom";
 const Industrial = () => {
   const [showEnquiryModal, setShowEnquiryModal] = useState(false);
 
+  const [formData, setFormData] = useState({
+  name: "",
+  phone: "",
+  email: "",
+  societyName: "",
+  flats: "",
+  systemType: "",
+  message: "",
+  city: ""
+});
+
+const [loading, setLoading] = useState(false);
+const [success, setSuccess] = useState(false);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!/^[6-9]\d{9}$/.test(formData.phone)) {
+    alert("Enter valid 10-digit mobile number");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const res = await fetch("https://easternbaysolar.com/EasternBay_apis/industrial_enquiry.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await res.json();
+
+    if (result.status) {
+      setSuccess(true);
+
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        societyName: "",
+        flats: "",
+        systemType: "",
+        message: "",
+        city: ""
+      });
+
+      setTimeout(() => {
+        setSuccess(false);
+        setShowEnquiryModal(false);
+      }, 3000);
+    }
+
+  } catch (error) {
+    alert("Something went wrong");
+  }
+
+  setLoading(false);
+};
+
   // Custom SVG Icons
   const icons = {
     apartment: (
@@ -201,7 +261,7 @@ const Industrial = () => {
                   <span>Get Free Site Survey</span>
                   {icons.arrow}
                 </button>
-                <Link to="/contact" className="ebi__btn ebi__btn--secondary">
+                <Link to="/Appointment" className="ebi__btn ebi__btn--secondary">
                   <span>Talk to Expert</span>
                 </Link>
               </div>
@@ -365,39 +425,87 @@ const Industrial = () => {
               </div>
 
               <div className="ebi__enquiryRight">
-                <form className="ebi__enquiryForm">
-                  <div className="ebi__formRow">
-                    <input type="text" placeholder="Full Name" required />
-                  </div>
-                  <div className="ebi__formRow">
-                    <input type="tel" placeholder="Mobile Number" required />
-                  </div>
-                  <div className="ebi__formRow">
-                    <input type="email" placeholder="Email Address" />
-                  </div>
-                  <div className="ebi__formRow">
-                    <input type="text" placeholder="Society Name" required />
-                  </div>
-                  <div className="ebi__formRow">
-                    <div className="ebi__formHalf">
-                      <input type="text" placeholder="Number of Flats" />
-                    </div>
-                    <div className="ebi__formHalf">
-                      <select>
-                        <option>System Type</option>
-                        <option>On-Grid</option>
-                        <option>Off-Grid</option>
-                        <option>Hybrid</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="ebi__formRow">
-                    <textarea rows="4" placeholder="Message (Optional)"></textarea>
-                  </div>
-                  <button type="submit" className="ebi__submitBtn">
-                    Submit Enquiry
-                  </button>
-                </form>
+                <form className="ebi__enquiryForm" onSubmit={handleSubmit}>
+
+  <div className="ebi__formRow">
+    <input
+      type="text"
+      placeholder="Full Name"
+      required
+      value={formData.name}
+      onChange={(e) => setFormData({...formData, name: e.target.value})}
+    />
+  </div>
+
+  <div className="ebi__formRow">
+    <input
+      type="tel"
+      placeholder="Mobile Number"
+      required
+      value={formData.phone}
+      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+    />
+  </div>
+
+  <div className="ebi__formRow">
+    <input
+      type="email"
+      placeholder="Email Address"
+      value={formData.email}
+      onChange={(e) => setFormData({...formData, email: e.target.value})}
+    />
+  </div>
+
+  <div className="ebi__formRow">
+    <input
+      type="text"
+      placeholder="Society Name"
+      required
+      value={formData.societyName}
+      onChange={(e) => setFormData({...formData, societyName: e.target.value})}
+    />
+  </div>
+
+  <div className="ebi__formRow">
+    <div className="ebi__formHalf">
+      <input
+        type="text"
+        placeholder="Number of Flats"
+        value={formData.flats}
+        onChange={(e) => setFormData({...formData, flats: e.target.value})}
+      />
+    </div>
+
+    <div className="ebi__formHalf">
+      <select
+        value={formData.systemType}
+        onChange={(e) => setFormData({...formData, systemType: e.target.value})}
+      >
+        <option value="">System Type</option>
+        <option>On-Grid</option>
+        <option>Off-Grid</option>
+        <option>Hybrid</option>
+      </select>
+    </div>
+  </div>
+
+  <div className="ebi__formRow">
+    <textarea
+      rows="4"
+      placeholder="Message (Optional)"
+      value={formData.message}
+      onChange={(e) => setFormData({...formData, message: e.target.value})}
+    />
+  </div>
+
+  <button type="submit" className="ebi__submitBtn" disabled={loading}>
+    {loading ? "Submitting..." : "Submit Enquiry"}
+  </button>
+
+  {success && <p style={{color:"green", textAlign:"center"}}>✅ Submitted Successfully!</p>}
+
+</form>
+
               </div>
             </div>
           </div>
@@ -417,43 +525,92 @@ const Industrial = () => {
               <p>Fill details for your housing society</p>
             </div>
 
-            <form className="ebi__modalForm">
-              <div className="ebi__modalRow">
-                <input type="text" placeholder="Full Name" required />
-              </div>
-              <div className="ebi__modalRow">
-                <input type="tel" placeholder="Mobile Number" required />
-              </div>
-              <div className="ebi__modalRow">
-                <input type="email" placeholder="Email Address" />
-              </div>
-              <div className="ebi__modalRow">
-                <input type="text" placeholder="Society Name" required />
-              </div>
-              <div className="ebi__modalRow">
-                <input type="text" placeholder="City / Location" required />
-              </div>
-              <div className="ebi__modalRow">
-                <select required>
-                  <option value="">Number of Flats</option>
-                  <option>Less than 20</option>
-                  <option>21-50</option>
-                  <option>51-100</option>
-                  <option>100+</option>
-                </select>
-              </div>
-              <div className="ebi__modalRow">
-                <select required>
-                  <option value="">System Type</option>
-                  <option>On-Grid</option>
-                  <option>Off-Grid</option>
-                  <option>Hybrid</option>
-                </select>
-              </div>
-              <button type="submit" className="ebi__modalSubmit">
-                Submit Request
-              </button>
-            </form>
+            <form className="ebi__modalForm" onSubmit={handleSubmit}>
+
+  <div className="ebi__modalRow">
+    <input
+      type="text"
+      placeholder="Full Name"
+      required
+      value={formData.name}
+      onChange={(e) => setFormData({...formData, name: e.target.value})}
+    />
+  </div>
+
+  <div className="ebi__modalRow">
+    <input
+      type="tel"
+      placeholder="Mobile Number"
+      required
+      value={formData.phone}
+      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+    />
+  </div>
+
+  <div className="ebi__modalRow">
+    <input
+      type="email"
+      placeholder="Email Address"
+      value={formData.email}
+      onChange={(e) => setFormData({...formData, email: e.target.value})}
+    />
+  </div>
+
+  <div className="ebi__modalRow">
+    <input
+      type="text"
+      placeholder="Society Name"
+      required
+      value={formData.societyName}
+      onChange={(e) => setFormData({...formData, societyName: e.target.value})}
+    />
+  </div>
+
+  <div className="ebi__modalRow">
+    <input
+      type="text"
+      placeholder="City / Location"
+      required
+      value={formData.city}
+      onChange={(e) => setFormData({...formData, city: e.target.value})}
+    />
+  </div>
+
+  <div className="ebi__modalRow">
+    <select
+      required
+      value={formData.flats}
+      onChange={(e) => setFormData({...formData, flats: e.target.value})}
+    >
+      <option value="">Number of Flats</option>
+      <option>Less than 20</option>
+      <option>21-50</option>
+      <option>51-100</option>
+      <option>100+</option>
+    </select>
+  </div>
+
+  <div className="ebi__modalRow">
+    <select
+      required
+      value={formData.systemType}
+      onChange={(e) => setFormData({...formData, systemType: e.target.value})}
+    >
+      <option value="">System Type</option>
+      <option>On-Grid</option>
+      <option>Off-Grid</option>
+      <option>Hybrid</option>
+    </select>
+  </div>
+
+  <button type="submit" className="ebi__modalSubmit" disabled={loading}>
+    {loading ? "Submitting..." : "Submit Request"}
+  </button>
+
+  {success && <p style={{color:"green", textAlign:"center"}}>✅ Submitted Successfully!</p>}
+
+</form>
+
           </div>
         </div>
       )}
