@@ -824,7 +824,7 @@ const Footer = () => {
           }
 
           .ebx__widget-header {
-            justify-content: center;
+            // justify-content: center;
           }
 
           .ebx__widget-title::after {
