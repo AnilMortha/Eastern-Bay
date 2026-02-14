@@ -210,10 +210,10 @@ const ProcessSection = () => {
                 </div>
 
                 {/* Explorer Link */}
-                <a href="/process" className="ebx__voyager" style={{ color: process.color }}>
+                {/* <a href="/process" className="ebx__voyager" style={{ color: process.color }}>
                   <span>Explore Process</span>
                   {icons.arrowRight}
-                </a>
+                </a> */}
               </div>
 
               {/* Edge Accent */}

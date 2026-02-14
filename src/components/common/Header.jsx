@@ -129,12 +129,12 @@ const Header = () => {
 
   // Scrolling offer messages
   const tickerOffers = [
-    "⚡ FREE Site Inspection - Book Now!",
-    "🎉 0% EMI Options Available on All Systems",
-    "🏆 NEDCAP Approved Channel Partner",
-    "🔧 10 Years Comprehensive Warranty",
-    "💰 Save up to ₹50,000 with Government Subsidy",
-    "☀️ 25 Years Panel Performance Warranty"
+    " FREE Site Inspection - Book Now!",
+    " 0% EMI Options Available on All Systems",
+    " NEDCAP Approved Channel Partner",
+    " 10 Years Comprehensive Warranty",
+    " Save up to ₹50,000 with Government Subsidy",
+    " 25 Years Panel Performance Warranty"
   ];
 
   return (

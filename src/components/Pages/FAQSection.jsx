@@ -198,7 +198,7 @@ const FAQSection = () => {
                 <h4>ఇంకా ప్రశ్నలు ఉన్నాయా?</h4>
                 <p>మా తెలుగు సపోర్ట్ టీమ్ సహాయం చేయడానికి సిద్ధంగా ఉంది</p>
               </div>
-              <a href="/contact" className="ftw__gateway">
+              <a href="/Appointment" className="ftw__gateway">
                 <span>Contact Us</span>
                 {icons.arrow}
               </a>

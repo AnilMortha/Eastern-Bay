@@ -24,7 +24,7 @@ const Footer = () => {
 
       <div className="ebx__footer-container">
         {/* Newsletter Section */}
-        <div className="ebx__footer-newsletter">
+        {/* <div className="ebx__footer-newsletter">
           <div className="ebx__newsletter-content">
             <div className="ebx__newsletter-icon">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
@@ -49,7 +49,7 @@ const Footer = () => {
               </svg>
             </button>
           </div>
-        </div>
+        </div> */}
 
         {/* Main Footer Widgets */}
         <div className="ebx__footer-widget-area">

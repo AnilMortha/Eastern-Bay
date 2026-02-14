@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import {contact} from '../../environments/api'
 const Appointment = () => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -39,6 +39,7 @@ const Appointment = () => {
     }
   ];
 
+  
   // Social media links
   const socialLinks = [
     { id: 1, name: 'facebook', url: '#', icon: 'facebook-svg' },
@@ -103,15 +104,15 @@ const Appointment = () => {
 
   // Handle submit
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errors = validateForm();
-    
-    if (Object.keys(errors).length === 0) {
-      setIsSubmitting(true);
-      
-      // Simulate API call
-      setTimeout(() => {
-        setIsSubmitting(false);
+  e.preventDefault();
+  const errors = validateForm();
+
+  if (Object.keys(errors).length === 0) {
+    setIsSubmitting(true);
+
+    try {
+      const result = await contact.post("contact.php", formData);
+      if (result.status) {
         setSubmitSuccess(true);
         setFormData({
           fullName: '',
@@ -120,16 +121,25 @@ const Appointment = () => {
           subject: '',
           message: ''
         });
-        
-        // Reset success message after 5 seconds
+
         setTimeout(() => {
           setSubmitSuccess(false);
         }, 5000);
-      }, 2000);
-    } else {
-      setFormErrors(errors);
+      } else {
+        alert(result.message);
+      }
+
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong!");
     }
-  };
+
+    setIsSubmitting(false);
+  } else {
+    setFormErrors(errors);
+  }
+};
+
 
   // Floating particles effect
   useEffect(() => {

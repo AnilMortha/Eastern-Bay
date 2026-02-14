@@ -738,7 +738,7 @@ const ProjectSection = () => {
 
               <span className="eby-service-category">RESIDENTIAL</span>
               <h3 className="eby-service-title">
-                <Link to="/residential-solar-services">Home Solar Systems</Link>
+                <Link to="/residential">Home Solar Systems</Link>
               </h3>
               
               <p className="eby-service-desc">
@@ -781,7 +781,7 @@ const ProjectSection = () => {
               </div>
 
               <div className="eby-service-btn">
-                <Link to="/residential-solar-services" className="eby-th-btn">
+                <Link to="/residential" className="eby-th-btn">
                   <span>Know Residential Services</span>
                   <i className="fa-regular fa-arrow-right ms-2"></i>
                 </Link>
@@ -798,7 +798,7 @@ const ProjectSection = () => {
 
               <span className="eby-service-category">COMMERCIAL</span>
               <h3 className="eby-service-title">
-                <Link to="/commercial-solar-services">Business Solar Solutions</Link>
+                <Link to="/commercial">Business Solar Solutions</Link>
               </h3>
               
               <p className="eby-service-desc">
@@ -841,7 +841,7 @@ const ProjectSection = () => {
               </div>
 
               <div className="eby-service-btn">
-                <Link to="/commercial-solar-services" className="eby-th-btn">
+                <Link to="/commercial" className="eby-th-btn">
                   <span>Know Commercial Services</span>
                   <i className="fa-regular fa-arrow-right ms-2"></i>
                 </Link>
@@ -858,7 +858,7 @@ const ProjectSection = () => {
 
               <span className="eby-service-category">INDUSTRIAL</span>
               <h3 className="eby-service-title">
-                <Link to="/industrial-solar-services">Industrial Solar Plants</Link>
+                <Link to="/Industrial">Industrial Solar Plants</Link>
               </h3>
               
               <p className="eby-service-desc">
@@ -901,7 +901,7 @@ const ProjectSection = () => {
               </div>
 
               <div className="eby-service-btn">
-                <Link to="/industrial-solar-services" className="eby-th-btn">
+                <Link to="/Industrial" className="eby-th-btn">
                   <span>Know Industrial Services</span>
                   <i className="fa-regular fa-arrow-right ms-2"></i>
                 </Link>
@@ -911,7 +911,7 @@ const ProjectSection = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="row">
+        {/* <div className="row">
           <div className="col-12">
             <div className="eby-cta-box text-center mt-50">
               <h3>Need a Custom Solar Solution?</h3>
@@ -922,7 +922,7 @@ const ProjectSection = () => {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <style jsx>{`

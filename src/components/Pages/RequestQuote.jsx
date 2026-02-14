@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 
 const RequestQuote = () => {
-  const [formData, setFormData] = useState({
+   const [formData, setFormData] = useState({
     name: "",
     email: "",
     number: "",
+    subject: "",
     message: ""
   });
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
+const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -17,12 +18,33 @@ const RequestQuote = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setIsSubmitting(true);
+
+    try {
+      const result = await contact.post("contact.php", formData);
+      if (result.status) {
+        setIsSubmitted(true);
+        setFormData({
+          name: "",
+          email: "",
+          number: "",
+          subject: "",
+          message: ""
+        });
+
+        setTimeout(() => setIsSubmitted(false), 4000);
+      } else {
+        alert(result.message);
+      }
+
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong!");
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -172,6 +194,25 @@ const RequestQuote = () => {
                     required
                   />
                 </div>
+                <div className="ebx__form-field">
+                  <div className="ebx__field-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <rect x="5" y="2" width="14" height="20" rx="2" stroke="#1E3A5F" strokeWidth="1.5"/>
+                      <circle cx="12" cy="18" r="1" fill="#1E3A5F"/>
+                    </svg>
+                  </div>
+                 <input
+                    type="text"
+                    className="ebx__field-input"
+                    name="subject"
+                    placeholder="Subject (e.g. 100KW Solar Plant)"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                 
 
                 <div className="ebx__form-field">
                   <div className="ebx__field-icon">
@@ -224,585 +265,7 @@ const RequestQuote = () => {
         </div>
       </div>
 
-      <style jsx>{`
-        /* ===== EASTERN BEY QUOTE SECTION - LIGHT THEME ===== */
-        .ebx__quote-universe {
-          position: relative;
-          padding: 100px 0;
-          background: linear-gradient(145deg, #F8FAFC, #F1F5F9);
-          overflow: hidden;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        /* ===== ANIMATED COSMIC BACKGROUND - LIGHT ===== */
-        .ebx__quote-cosmos {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 1;
-        }
-
-        .ebx__quote-nebula {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle at 20% 50%, rgba(255,149,0,0.03) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 30%, rgba(139,92,246,0.03) 0%, transparent 50%),
-                      radial-gradient(circle at 40% 80%, rgba(16,185,129,0.03) 0%, transparent 50%),
-                      radial-gradient(circle at 90% 70%, rgba(236,72,153,0.03) 0%, transparent 50%);
-        }
-
-        .ebx__quote-stars {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-image: 
-            radial-gradient(2px 2px at 10px 30px, #64748B, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 30px 70px, #FF9500, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 70px 120px, #8B5CF6, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 130px 40px, #64748B, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 180px 90px, #10B981, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 220px 150px, #EC4899, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 280px 60px, #64748B, rgba(0,0,0,0));
-          background-size: 300px 300px;
-          opacity: 0.1;
-          animation: starFloat 20s linear infinite;
-        }
-
-        @keyframes starFloat {
-          0% { transform: translateY(0) translateX(0); }
-          100% { transform: translateY(-30px) translateX(20px); }
-        }
-
-        .ebx__quote-energy {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-        }
-
-        .ebx__energy-particle {
-          position: absolute;
-          width: 4px;
-          height: 4px;
-          background: #FF9500;
-          border-radius: 50%;
-          opacity: 0.2;
-          animation: energyFlow 15s linear infinite;
-        }
-
-        .ebx__energy-particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .ebx__energy-particle:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; background: #8B5CF6; }
-        .ebx__energy-particle:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; background: #10B981; }
-        .ebx__energy-particle:nth-child(4) { top: 40%; right: 30%; animation-delay: 6s; background: #EC4899; }
-        .ebx__energy-particle:nth-child(5) { bottom: 20%; left: 40%; animation-delay: 8s; background: #FF9500; }
-
-        @keyframes energyFlow {
-          0% { transform: translateY(0) translateX(0); opacity: 0.2; }
-          50% { transform: translateY(-50px) translateX(30px); opacity: 0.4; }
-          100% { transform: translateY(-100px) translateX(60px); opacity: 0; }
-        }
-
-        .ebx__quote-solar-panels {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 200px;
-          background: linear-gradient(transparent, rgba(255,149,0,0.02));
-          mask-image: url('data:image/svg+xml;utf8,<svg width="100" height="50" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" x="0" y="0" fill="black"/><rect width="20" height="20" x="25" y="0" fill="black"/><rect width="20" height="20" x="50" y="0" fill="black"/><rect width="20" height="20" x="75" y="0" fill="black"/><rect width="20" height="20" x="0" y="25" fill="black"/><rect width="20" height="20" x="25" y="25" fill="black"/><rect width="20" height="20" x="50" y="25" fill="black"/><rect width="20" height="20" x="75" y="25" fill="black"/></svg>');
-          mask-size: 100px 50px;
-          mask-repeat: repeat;
-          opacity: 0.05;
-        }
-
-        .ebx__quote-container {
-          max-width: 1280px;
-          margin: 0 auto;
-          padding: 0 40px;
-          position: relative;
-          z-index: 10;
-        }
-
-        .ebx__quote-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 60px;
-          align-items: center;
-        }
-
-        /* ===== LEFT SIDE - LEGACY CONTENT ===== */
-        .ebx__quote-legacy {
-          position: relative;
-          z-index: 20;
-        }
-
-        .ebx__legacy-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 12px;
-          padding: 10px 24px;
-          background: rgba(255,149,0,0.08);
-          border: 1px solid rgba(255,149,0,0.2);
-          border-radius: 60px;
-          margin-bottom: 30px;
-          backdrop-filter: blur(10px);
-          animation: badgePulse 3s infinite;
-        }
-
-        @keyframes badgePulse {
-          0%, 100% { border-color: rgba(255,149,0,0.2); }
-          50% { border-color: rgba(255,149,0,0.4); }
-        }
-
-        .ebx__badge-icon {
-          font-size: 18px;
-          color: #FF9500;
-        }
-
-        .ebx__badge-text {
-          font-size: 13px;
-          font-weight: 700;
-          letter-spacing: 2px;
-          color: #FF9500;
-          text-transform: uppercase;
-        }
-
-        .ebx__legacy-title {
-          font-size: 52px;
-          font-weight: 800;
-          line-height: 1.2;
-          color: #1E3A5F;
-          margin-bottom: 25px;
-          letter-spacing: -1.5px;
-        }
-
-        .ebx__title-highlight {
-          display: block;
-          color: #FF9500;
-          position: relative;
-          margin-top: 8px;
-        }
-
-       .ebx__title-highlight::before {
-    content: '';
-    position: absolute;
-    bottom: 0px;
-    left: -14px;
-    padding: 31px;
-    width: 100%;
-    height: 20px;
-    background: rgba(255, 149, 0, 0.1);
-    z-index: -1;
-    border-radius: 20px;
-}
-
-        .ebx__legacy-description {
-          margin-bottom: 40px;
-        }
-
-        .ebx__legacy-description p {
-          font-size: 18px;
-          line-height: 1.8;
-          color: #475569;
-          margin: 0;
-        }
-
-        /* ===== STATS ===== */
-        .ebx__legacy-stats {
-          display: flex;
-          align-items: center;
-          gap: 30px;
-          margin-bottom: 40px;
-          padding: 25px 30px;
-          background: white;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(0,0,0,0.05);
-          border-radius: 20px;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-        }
-
-        .ebx__stat-item {
-          flex: 1;
-        }
-
-        .ebx__stat-number {
-          margin-bottom: 8px;
-        }
-
-        .ebx__stat-value {
-          font-size: 32px;
-          font-weight: 800;
-          color: #FF9500;
-        }
-
-        .ebx__stat-label {
-          font-size: 14px;
-          font-weight: 500;
-          color: #64748B;
-          line-height: 1.5;
-        }
-
-        .ebx__stat-divider {
-          width: 1px;
-          height: 40px;
-          background: rgba(0,0,0,0.1);
-        }
-
-        /* ===== TRUST BADGES ===== */
-        .ebx__legacy-trust {
-          display: flex;
-          gap: 30px;
-        }
-
-        .ebx__trust-badge {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 10px 20px;
-          background: white;
-          border: 1px solid rgba(0,0,0,0.05);
-          border-radius: 40px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #1E3A5F;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-
-        .ebx__trust-badge:hover {
-          background: rgba(255,149,0,0.04);
-          border-color: #FF9500;
-          transform: translateY(-2px);
-        }
-
-        /* ===== RIGHT SIDE - FORM SANCTUM ===== */
-        .ebx__quote-sanctum {
-          background: white;
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(0,0,0,0.05);
-          border-radius: 32px;
-          padding: 40px;
-          position: relative;
-          z-index: 20;
-          box-shadow: 0 20px 40px -12px rgba(0,0,0,0.08);
-          overflow: hidden;
-        }
-
-        .ebx__quote-sanctum::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 4px;
-          background: linear-gradient(90deg, #FF9500, #8B5CF6, #10B981, #EC4899);
-          opacity: 0.3;
-        }
-
-        .ebx__sanctum-header {
-          text-align: center;
-          margin-bottom: 35px;
-          position: relative;
-        }
-
-        .ebx__header-icon {
-          width: 70px;
-          height: 70px;
-          background: linear-gradient(145deg, rgba(255,149,0,0.08), rgba(255,149,0,0.02));
-          border: 1px solid rgba(255,149,0,0.2);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 20px;
-          position: relative;
-          animation: iconPulse 2s infinite;
-        }
-
-        @keyframes iconPulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(255,149,0,0.2); }
-          50% { box-shadow: 0 0 0 10px rgba(255,149,0,0); }
-        }
-
-        .ebx__sanctum-title {
-          font-size: 28px;
-          font-weight: 700;
-          color: #1E3A5F;
-          margin-bottom: 10px;
-        }
-
-        .ebx__sanctum-subtitle {
-          font-size: 15px;
-          color: #64748B;
-          margin: 0;
-        }
-
-        /* ===== FORM STYLES ===== */
-        .ebx__quote-form {
-          position: relative;
-        }
-
-        .ebx__form-galaxy {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-          margin-bottom: 30px;
-        }
-
-        .ebx__form-field {
-          position: relative;
-        }
-
-        .ebx__field-icon {
-          position: absolute;
-          left: 18px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #94A3B8;
-          transition: all 0.3s ease;
-          z-index: 2;
-        }
-
-        .ebx__form-field:focus-within .ebx__field-icon {
-          color: #FF9500;
-        }
-
-        .ebx__field-input {
-          width: 100%;
-          padding: 16px 20px 16px 50px;
-          background: #F8FAFC;
-          border: 1.5px solid rgba(0,0,0,0.05);
-          border-radius: 16px;
-          font-size: 16px;
-          color: #1E3A5F;
-          transition: all 0.3s ease;
-          font-family: 'Inter', sans-serif;
-        }
-
-        .ebx__field-input:focus {
-          outline: none;
-          border-color: #FF9500;
-          background: white;
-          box-shadow: 0 0 0 4px rgba(255,149,0,0.08);
-        }
-
-        .ebx__field-input::placeholder {
-          color: #94A3B8;
-          font-weight: 400;
-        }
-
-        .ebx__field-textarea {
-          resize: none;
-          padding-top: 16px;
-        }
-
-        .ebx__form-field:has(.ebx__field-textarea) .ebx__field-icon {
-          top: 22px;
-          transform: none;
-        }
-
-        /* ===== SUBMIT BUTTON ===== */
-        .ebx__submit-btn {
-          width: 100%;
-          padding: 18px 30px;
-          background: linear-gradient(145deg, #FF9500, #FFB347);
-          border: none;
-          border-radius: 60px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 12px;
-          position: relative;
-          overflow: hidden;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-          border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .ebx__btn-text {
-          font-size: 16px;
-          font-weight: 700;
-          color: white;
-          letter-spacing: 0.5px;
-          position: relative;
-          z-index: 2;
-        }
-
-        .ebx__btn-icon {
-          position: relative;
-          z-index: 2;
-          display: flex;
-          align-items: center;
-          transition: transform 0.3s ease;
-        }
-
-        .ebx__btn-energy {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-          transform: translate(-50%, -50%) scale(0);
-          transition: transform 0.6s ease;
-          border-radius: 50%;
-        }
-
-        .ebx__submit-btn:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 20px 40px -10px rgba(255,149,0,0.3);
-        }
-
-        .ebx__submit-btn:hover .ebx__btn-icon {
-          transform: translateX(6px);
-        }
-
-        .ebx__submit-btn:hover .ebx__btn-energy {
-          transform: translate(-50%, -50%) scale(2);
-        }
-
-        /* ===== SUCCESS MESSAGE ===== */
-        .ebx__form-success {
-          margin-top: 25px;
-          padding: 16px 20px;
-          background: rgba(16,185,129,0.08);
-          border: 1px solid rgba(16,185,129,0.2);
-          border-radius: 16px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          color: #065F46;
-          animation: slideUp 0.5s ease;
-        }
-
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        /* ===== PRIVACY TEXT ===== */
-        .ebx__form-privacy {
-          margin-top: 20px;
-          font-size: 13px;
-          color: #94A3B8;
-          text-align: center;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1100px) {
-          .ebx__quote-grid {
-            gap: 40px;
-          }
-
-          .ebx__legacy-title {
-            font-size: 44px;
-          }
-
-          .ebx__stat-value {
-            font-size: 28px;
-          }
-        }
-
-        @media (max-width: 992px) {
-          .ebx__quote-grid {
-            grid-template-columns: 1fr;
-            gap: 50px;
-          }
-
-          .ebx__legacy-title {
-            font-size: 48px;
-          }
-
-          .ebx__legacy-stats {
-            justify-content: center;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .ebx__quote-universe {
-            padding: 70px 0;
-          }
-
-          .ebx__quote-container {
-            padding: 0 24px;
-          }
-
-          .ebx__legacy-title {
-            font-size: 40px;
-          }
-
-          .ebx__legacy-stats {
-            flex-direction: column;
-            gap: 20px;
-            padding: 20px;
-          }
-
-          .ebx__stat-divider {
-            display: none;
-          }
-
-          .ebx__stat-item {
-            width: 100%;
-            text-align: center;
-          }
-
-          .ebx__legacy-trust {
-            flex-direction: column;
-            gap: 15px;
-          }
-
-          .ebx__quote-sanctum {
-            padding: 30px 25px;
-          }
-
-          .ebx__sanctum-title {
-            font-size: 24px;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .ebx__legacy-title {
-            font-size: 32px;
-          }
-
-          .ebx__legacy-description p {
-            font-size: 16px;
-          }
-
-          .ebx__stat-value {
-            font-size: 24px;
-          }
-
-          .ebx__badge-text {
-            font-size: 11px;
-            letter-spacing: 1px;
-          }
-
-          .ebx__quote-sanctum {
-            padding: 25px 20px;
-          }
-
-          .ebx__field-input {
-            padding: 14px 16px 14px 45px;
-            font-size: 15px;
-          }
-        }
-      `}</style>
+     
     </section>
   );
 };

@@ -105,15 +105,15 @@ const Banner = () => {
                         </div>
 
                         <div className="ebs__ctaGroup">
-                            <a href="/contact" className="ebs__btn ebs__btn--primary">
+                            <a href="/Appointment" className="ebs__btn ebs__btn--primary">
                                 <span>Book Consultation</span>
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                                     <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z" fill="currentColor"/>
                                 </svg>
                             </a>
-                            <a href="/services" className="ebs__btn ebs__btn--secondary">
+                            {/* <a href="/services" className="ebs__btn ebs__btn--secondary">
                                 View Services
-                            </a>
+                            </a> */}
                         </div>
 
                         <div className="ebs__trustPillars">

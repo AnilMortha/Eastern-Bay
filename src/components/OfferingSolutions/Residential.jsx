@@ -1,8 +1,53 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { contact} from '../../environments/api'
 const Residential = () => {
   const [showModal, setShowModal] = useState(false);
+const [formData, setFormData] = useState({
+  name: "",
+  phone: "",
+  city: "",
+  homeType: "",
+  interest: ""
+});
+
+const [isSubmitting, setIsSubmitting] = useState(false);
+const [isSuccess, setIsSuccess] = useState(false);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+
+  try {
+    const response = await contact.post("residential_consultation.php", formData);
+
+    if (response.data.status) {
+      setIsSuccess(true);
+
+      setFormData({
+        name: "",
+        phone: "",
+        city: "",
+        homeType: "",
+        interest: ""
+      });
+
+      setTimeout(() => {
+        setShowModal(false);
+        setIsSuccess(false);
+      }, 3000);
+
+    } else {
+      alert(response.data.message);
+    }
+
+  } catch (error) {
+    console.error(error);
+    alert("Something went wrong!");
+  }
+
+  setIsSubmitting(false);
+};
+
 
   // Custom SVG Icons
   const icons = {
@@ -344,35 +389,72 @@ const Residential = () => {
               <p>Get subsidy details & free quote for your home</p>
             </div>
 
-            <form className="ebr__modalForm">
-              <div className="ebr__formGroup">
-                <input type="text" placeholder="Your Name" required />
-              </div>
-              <div className="ebr__formGroup">
-                <input type="tel" placeholder="Mobile Number" required />
-              </div>
-              <div className="ebr__formGroup">
-                <input type="text" placeholder="District / City" required />
-              </div>
-              <div className="ebr__formGroup">
-                <select required>
-                  <option value="">Select Home Type</option>
-                  <option>Individual House</option>
-                  <option>Apartment / Flat</option>
-                  <option>Villa</option>
-                </select>
-              </div>
-              <div className="ebr__formGroup">
-                <select>
-                  <option value="">Interested in PM Surya Ghar Scheme?</option>
-                  <option>Yes, check eligibility</option>
-                  <option>Just want solar quote</option>
-                </select>
-              </div>
-              <button type="submit" className="ebr__modalSubmit">
-                Submit Request
-              </button>
-            </form>
+            <form className="ebr__modalForm" onSubmit={handleSubmit}>
+  <div className="ebr__formGroup">
+    <input
+      type="text"
+      placeholder="Your Name"
+      required
+      value={formData.name}
+      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+    />
+  </div>
+
+  <div className="ebr__formGroup">
+    <input
+      type="tel"
+      placeholder="Mobile Number"
+      required
+      value={formData.phone}
+      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+    />
+  </div>
+
+  <div className="ebr__formGroup">
+    <input
+      type="text"
+      placeholder="District / City"
+      required
+      value={formData.city}
+      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+    />
+  </div>
+
+  <div className="ebr__formGroup">
+    <select
+      required
+      value={formData.homeType}
+      onChange={(e) => setFormData({ ...formData, homeType: e.target.value })}
+    >
+      <option value="">Select Home Type</option>
+      <option>Individual House</option>
+      <option>Apartment / Flat</option>
+      <option>Villa</option>
+    </select>
+  </div>
+
+  <div className="ebr__formGroup">
+    <select
+      value={formData.interest}
+      onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
+    >
+      <option value="">Interested in PM Surya Ghar Scheme?</option>
+      <option>Yes, check eligibility</option>
+      <option>Just want solar quote</option>
+    </select>
+  </div>
+
+  <button type="submit" className="ebr__modalSubmit" disabled={isSubmitting}>
+    {isSubmitting ? "Submitting..." : "Submit Request"}
+  </button>
+
+  {isSuccess && (
+    <p style={{ color: "green", textAlign: "center", marginTop: "10px" }}>
+      ✅ Submitted Successfully!
+    </p>
+  )}
+</form>
+
 
             <p className="ebr__modalNote">
               We'll contact you within 24 hours • తెలుగులో మాట్లాడండి
