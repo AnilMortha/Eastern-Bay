@@ -913,10 +913,10 @@ const Banner = () => {
                         font-size: 48px;
                     }
 
-                    .ebs__right {
-                        max-width: 600px;
-                        margin: 0 auto;
-                    }
+                    // .ebs__right {
+                    //     max-width: 600px;
+                    //     margin: 0 auto;
+                    // }
                 }
 
                 @media (max-width: 768px) {
@@ -945,16 +945,23 @@ const Banner = () => {
                         gap: 8px;
                     }
 
-                    .ebs__timelineTrack {
-                        flex-direction: column;
-                        gap: 20px;
-                        align-items: flex-start;
-                    }
+                    // .ebs__timelineTrack {
+                    //     flex-direction: column;
+                    //     gap: 20px;
+                    //     align-items: flex-start;
+                    // }
 
                     .ebs__timelineTrack::before {
                         display: none;
                     }
                 }
+                    @media (max-width: 480px) {
+                    .ebs__timelineTrack {
+                        flex-direction: column;
+                        gap: 20px;
+                        align-items: center;
+                    }
+            }
             `}</style>
         </section>
     );

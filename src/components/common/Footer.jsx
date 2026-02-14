@@ -847,11 +847,11 @@ const Footer = () => {
             transform: translateX(-50%);
           }
 
-          .ebx__contact-item {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-          }
+          // .ebx__contact-item {
+          //   flex-direction: column;
+          //   align-items: center;
+          //   text-align: center;
+          // }
         }
       `}</style>
     </footer>

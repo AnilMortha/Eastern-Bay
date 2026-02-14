@@ -239,7 +239,7 @@ const About = () => {
 
         .eby__badge {
           position: absolute;
-          bottom: 30px;
+          bottom: -25px;
           right: -20px;
           background: white;
           padding: 18px 24px;
@@ -297,6 +297,7 @@ const About = () => {
         .eby__stats {
           display: flex;
           gap: 30px;
+          justify-content: space-between;
           margin-bottom: 35px;
           padding: 20px 0;
           border-top: 1px solid rgba(0, 0, 0, 0.05);
@@ -306,6 +307,7 @@ const About = () => {
         .eby__stat {
           display: flex;
           flex-direction: column;
+          align-items: center;
         }
 
         .eby__statValue {
@@ -318,6 +320,7 @@ const About = () => {
         .eby__statLabel {
           font-size: 14px;
           color: #64748B;
+          text-align: center;
         }
 
         /* ===== PROMISE - PURE ENGLISH ===== */
@@ -441,7 +444,7 @@ const About = () => {
           }
 
           .eby__badge {
-            right: 20px;
+            right: -14px;
           }
         }
 
@@ -470,11 +473,11 @@ const About = () => {
             font-size: 22px;
           }
 
-          .eby__badge {
-            position: static;
-            margin-top: 20px;
-            width: fit-content;
-          }
+          // .eby__badge {
+          //   position: static;
+          //   margin-top: 20px;
+          //   width: fit-content;
+          // }
 
           .eby__button {
             width: 100%;
@@ -491,10 +494,10 @@ const About = () => {
         }
 
         @media (max-width: 480px) {
-          .eby__stats {
-            flex-direction: column;
-            gap: 15px;
-          }
+          // .eby__stats {
+          //   flex-direction: column;
+          //   gap: 15px;
+          // }
 
           .eby__title {
             font-size: 26px;

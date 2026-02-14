@@ -189,20 +189,7 @@ const FAQSection = () => {
               ))}
             </div>
 
-            {/* Contact Card */}
-            <div className="ftw__portal">
-              <div className="ftw__portalIcon">
-                {icons.help}
-              </div>
-              <div className="ftw__portalText">
-                <h4>ఇంకా ప్రశ్నలు ఉన్నాయా?</h4>
-                <p>మా తెలుగు సపోర్ట్ టీమ్ సహాయం చేయడానికి సిద్ధంగా ఉంది</p>
-              </div>
-              <a href="/Appointment" className="ftw__gateway">
-                <span>Contact Us</span>
-                {icons.arrow}
-              </a>
-            </div>
+            
           </div>
 
           {/* ===== RIGHT SIDE - VISUAL ===== */}
@@ -241,6 +228,20 @@ const FAQSection = () => {
             </div>
           </div>
         </div>
+        {/* Contact Card */}
+            <div className="ftw__portal">
+              <div className="ftw__portalIcon">
+                {icons.help}
+              </div>
+              <div className="ftw__portalText">
+                <h4>ఇంకా ప్రశ్నలు ఉన్నాయా?</h4>
+                <p>మా తెలుగు సపోర్ట్ టీమ్ సహాయం చేయడానికి సిద్ధంగా ఉంది</p>
+              </div>
+              <a href="/Appointment" className="ftw__gateway">
+                <span>Contact Us</span>
+                {icons.arrow}
+              </a>
+            </div>
       </div>
 
       <style jsx>{`
@@ -579,19 +580,18 @@ const FAQSection = () => {
         }
 
         .ftw__satellite--one {
-          top: 30px;
-          right: -20px;
+          top: 10px;
+          right: 0px;
         }
 
         .ftw__satellite--two {
-          bottom: 80px;
-          left: -20px;
+          bottom: 40px;
+          left: 0px;
           animation-delay: 1.5s;
         }
 
         .ftw__satellite--three {
-          top: 50%;
-          right: -20px;
+          top: 70px;
           transform: translateY(-50%);
           animation-delay: 3s;
         }
@@ -615,8 +615,8 @@ const FAQSection = () => {
 
         .ftw__seal {
           position: absolute;
-          bottom: 30px;
-          right: 30px;
+          bottom: 1px;
+          right: 0px;
           background: white;
           padding: 16px 24px;
           border-radius: 60px;
@@ -710,6 +710,7 @@ const FAQSection = () => {
             position: static;
             margin: 10px;
             animation: none;
+            transform: none;
           }
 
           .ftw__constellation {
@@ -721,7 +722,8 @@ const FAQSection = () => {
 
           .ftw__seal {
             position: static;
-            margin-top: 20px;
+            margin-bottom: 20px !important;
+            margin:auto;
             width: fit-content;
           }
 
