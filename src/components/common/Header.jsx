@@ -282,15 +282,15 @@ const Header = () => {
               </span>
             </button>
             <div className={`ebz__mobileSub ${activeSubmenu === 'offerings' ? 'ebz__mobileSub--open' : ''}`}>
-              <Link to="/solar_calculator" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+              <Link to="/residential" className="ebz__mobileLink" onClick={toggleMobileMenu}>
                 <span className="ebz__mobileIcon">{solarIcons.building}</span>
                 <span>Residential</span>
               </Link>
-              <Link to="/solar_calculator" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+              <Link to="/commercial" className="ebz__mobileLink" onClick={toggleMobileMenu}>
                 <span className="ebz__mobileIcon">{solarIcons.building}</span>
                 <span>Commercial</span>
               </Link>
-              <Link to="/solar_calculator" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+              <Link to="/industrial" className="ebz__mobileLink" onClick={toggleMobileMenu}>
                 <span className="ebz__mobileIcon">{solarIcons.building}</span>
                 <span>Industrial</span>
               </Link>
