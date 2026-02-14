@@ -7553,6 +7553,7 @@ ol.widget_recent_comments,
   padding: 50px 0;
   text-align: center;
   overflow: hidden;
+  margin-top: 130px;
 }
 @media (max-width: 1199px) {
   .breadcumb-wrapper {

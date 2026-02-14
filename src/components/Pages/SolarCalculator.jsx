@@ -564,7 +564,7 @@ const SolarCalculator = () => {
         .ebx__solar-calculator {
           position: relative;
           min-height: 100vh;
-          padding: 60px 20px;
+          padding: 160px 20px;
           background: linear-gradient(145deg, #F8FAFC, #F1F5F9);
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
           overflow: hidden;

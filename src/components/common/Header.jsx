@@ -211,20 +211,20 @@ const Header = () => {
                     <span className="ebz__dropIcon">{solarIcons.bolt}</span>
                     <span className="ebz__dropText">On-Grid</span>
                   </Link>
-                  <Link to="/HybridSolar" className="ebz__dropItem">
+                  {/* <Link to="/HybridSolar" className="ebz__dropItem">
                     <span className="ebz__dropIcon">{solarIcons.panel}</span>
                     <span className="ebz__dropText">Hybrid</span>
-                  </Link>
+                  </Link> */}
                 </div>
               </li>
 
               {/* Locations */}
-              <li className="ebz__navItem">
+              {/* <li className="ebz__navItem">
                 <Link to="/Places" className="ebz__navLink">
                   <span className="ebz__navIcon">{solarIcons.location}</span>
                   <span className="ebz__navText">Locations</span>
                 </Link>
-              </li>
+              </li> */}
 
               {/* More */}
               <li className="ebz__navItem ebz__navItem--hasChild">
@@ -314,18 +314,18 @@ const Header = () => {
                 <span className="ebz__mobileIcon">{solarIcons.bolt}</span>
                 <span>On-Grid</span>
               </Link>
-              <Link to="/HybridSolar" className="ebz__mobileLink" onClick={toggleMobileMenu}>
+              {/* <Link to="/HybridSolar" className="ebz__mobileLink" onClick={toggleMobileMenu}>
                 <span className="ebz__mobileIcon">{solarIcons.panel}</span>
                 <span>Hybrid</span>
-              </Link>
+              </Link> */}
             </div>
           </div>
 
           {/* Locations */}
-          <Link to="/Places" className="ebz__mobileItem" onClick={toggleMobileMenu}>
+          {/* <Link to="/Places" className="ebz__mobileItem" onClick={toggleMobileMenu}>
             <span className="ebz__mobileIcon">{solarIcons.location}</span>
             <span>Locations</span>
-          </Link>
+          </Link> */}
 
           {/* More */}
           <div className="ebz__mobileBlock">
