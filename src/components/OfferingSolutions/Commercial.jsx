@@ -2,6 +2,118 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Commercial = () => {
+const [quoteData, setQuoteData] = useState({
+  name: "",
+  phone: "",
+  email: "",
+  city: "",
+  businessType: "",
+  systemType: "",
+  monthlyBill: "",
+  roofArea: "",
+  requirement: ""
+});
+
+const [contactData, setContactData] = useState({
+  name: "",
+  phone: "",
+  city: "",
+  requirementType: "",
+  message: ""
+});
+
+const [loading, setLoading] = useState(false);
+const [success, setSuccess] = useState(false);
+
+const handleQuoteSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  if (!/^[6-9]\d{9}$/.test(quoteData.phone)) {
+    alert("Enter valid 10-digit mobile number");
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const res = await fetch("https://easternbaysolar.com/EasternBay_apis/commercial_quote.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(quoteData)
+    });
+
+    const result = await res.json();
+
+    if (result.status) {
+      setSuccess(true);
+      setQuoteData({
+        name: "",
+        phone: "",
+        email: "",
+        city: "",
+        businessType: "",
+        systemType: "",
+        monthlyBill: "",
+        roofArea: "",
+        requirement: ""
+      });
+
+      setTimeout(() => {
+        setSuccess(false);
+        setShowQuoteModal(false);
+      }, 3000);
+    }
+
+  } catch (err) {
+    alert("Error submitting form");
+  }
+
+  setLoading(false);
+};
+
+const handleContactSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  if (!/^[6-9]\d{9}$/.test(contactData.phone)) {
+    alert("Enter valid 10-digit mobile number");
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const res = await fetch("https://easternbaysolar.com/EasternBay_apis/commercial_contact.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(contactData)
+    });
+
+    const result = await res.json();
+
+    if (result.status) {
+      setSuccess(true);
+      setContactData({
+        name: "",
+        phone: "",
+        city: "",
+        requirementType: "",
+        message: ""
+      });
+
+      setTimeout(() => {
+        setSuccess(false);
+        setShowContactModal(false);
+      }, 3000);
+    }
+
+  } catch (err) {
+    alert("Error submitting form");
+  }
+
+  setLoading(false);
+};
+
+
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
 
@@ -307,64 +419,119 @@ const Commercial = () => {
               <p>Fill details for accurate pricing based on your business requirement</p>
             </div>
 
-            <form className="ebc__modalForm">
-              <div className="ebc__formRow">
-                <div className="ebc__formGroup">
-                  <input type="text" placeholder="Full Name" required />
-                </div>
-                <div className="ebc__formGroup">
-                  <input type="tel" placeholder="Mobile Number" required />
-                </div>
-              </div>
+           <form className="ebc__modalForm" onSubmit={handleQuoteSubmit}>
 
-              <div className="ebc__formRow">
-                <div className="ebc__formGroup">
-                  <input type="email" placeholder="Email" />
-                </div>
-                <div className="ebc__formGroup">
-                  <input type="text" placeholder="City / Location" required />
-                </div>
-              </div>
+  <div className="ebc__formRow">
+    <div className="ebc__formGroup">
+      <input
+        type="text"
+        placeholder="Full Name"
+        required
+        value={quoteData.name}
+        onChange={(e) => setQuoteData({...quoteData, name: e.target.value})}
+      />
+    </div>
 
-              <div className="ebc__formRow">
-                <div className="ebc__formGroup">
-                  <select required>
-                    <option value="">Business Type</option>
-                    <option>Office / IT Park</option>
-                    <option>Factory / Manufacturing</option>
-                    <option>Warehouse / Logistics</option>
-                    <option>School / Educational</option>
-                    <option>Shopping Mall</option>
-                    <option>Hotel / Hospital</option>
-                  </select>
-                </div>
-                <div className="ebc__formGroup">
-                  <select required>
-                    <option value="">System Type</option>
-                    <option>On-Grid (Grid Connected)</option>
-                    <option>Off-Grid (With Battery)</option>
-                    <option>Hybrid System</option>
-                  </select>
-                </div>
-              </div>
+    <div className="ebc__formGroup">
+      <input
+        type="tel"
+        placeholder="Mobile Number"
+        required
+        value={quoteData.phone}
+        onChange={(e) => setQuoteData({...quoteData, phone: e.target.value})}
+      />
+    </div>
+  </div>
 
-              <div className="ebc__formRow">
-                <div className="ebc__formGroup">
-                  <input type="text" placeholder="Approximate Monthly Bill (₹)" />
-                </div>
-                <div className="ebc__formGroup">
-                  <input type="text" placeholder="Roof Area (sq.ft)" />
-                </div>
-              </div>
+  <div className="ebc__formRow">
+    <div className="ebc__formGroup">
+      <input
+        type="email"
+        placeholder="Email"
+        value={quoteData.email}
+        onChange={(e) => setQuoteData({...quoteData, email: e.target.value})}
+      />
+    </div>
 
-              <div className="ebc__formGroup">
-                <textarea placeholder="Your Requirement (Optional)" rows="3"></textarea>
-              </div>
+    <div className="ebc__formGroup">
+      <input
+        type="text"
+        placeholder="City / Location"
+        required
+        value={quoteData.city}
+        onChange={(e) => setQuoteData({...quoteData, city: e.target.value})}
+      />
+    </div>
+  </div>
 
-              <button type="submit" className="ebc__modalSubmit">
-                Submit Quote Request
-              </button>
-            </form>
+  <div className="ebc__formRow">
+    <div className="ebc__formGroup">
+      <select
+        required
+        value={quoteData.businessType}
+        onChange={(e) => setQuoteData({...quoteData, businessType: e.target.value})}
+      >
+        <option value="">Business Type</option>
+        <option>Office / IT Park</option>
+        <option>Factory / Manufacturing</option>
+        <option>Warehouse / Logistics</option>
+        <option>School / Educational</option>
+        <option>Shopping Mall</option>
+        <option>Hotel / Hospital</option>
+      </select>
+    </div>
+
+    <div className="ebc__formGroup">
+      <select
+        required
+        value={quoteData.systemType}
+        onChange={(e) => setQuoteData({...quoteData, systemType: e.target.value})}
+      >
+        <option value="">System Type</option>
+        <option>On-Grid (Grid Connected)</option>
+        <option>Off-Grid (With Battery)</option>
+        <option>Hybrid System</option>
+      </select>
+    </div>
+  </div>
+
+  <div className="ebc__formRow">
+    <div className="ebc__formGroup">
+      <input
+        type="text"
+        placeholder="Approximate Monthly Bill (₹)"
+        value={quoteData.monthlyBill}
+        onChange={(e) => setQuoteData({...quoteData, monthlyBill: e.target.value})}
+      />
+    </div>
+
+    <div className="ebc__formGroup">
+      <input
+        type="text"
+        placeholder="Roof Area (sq.ft)"
+        value={quoteData.roofArea}
+        onChange={(e) => setQuoteData({...quoteData, roofArea: e.target.value})}
+      />
+    </div>
+  </div>
+
+  <div className="ebc__formGroup">
+    <textarea
+      placeholder="Your Requirement (Optional)"
+      rows="3"
+      value={quoteData.requirement}
+      onChange={(e) => setQuoteData({...quoteData, requirement: e.target.value})}
+    />
+  </div>
+
+  <button type="submit" className="ebc__modalSubmit" disabled={loading}>
+    {loading ? "Submitting..." : "Submit Quote Request"}
+  </button>
+
+  {success && <p style={{color:"green", textAlign:"center"}}>✅ Submitted Successfully!</p>}
+
+</form>
+
           </div>
         </div>
       )}
@@ -382,32 +549,69 @@ const Commercial = () => {
               <p>Speak to certified solar professionals</p>
             </div>
 
-            <form className="ebc__modalForm">
-              <div className="ebc__formGroup">
-                <input type="text" placeholder="Full Name" required />
-              </div>
-              <div className="ebc__formGroup">
-                <input type="tel" placeholder="Mobile Number" required />
-              </div>
-              <div className="ebc__formGroup">
-                <input type="text" placeholder="City" required />
-              </div>
-              <div className="ebc__formGroup">
-                <select required>
-                  <option value="">Select Requirement</option>
-                  <option>New Installation</option>
-                  <option>Price Enquiry</option>
-                  <option>Maintenance</option>
-                  <option>Site Survey</option>
-                </select>
-              </div>
-              <div className="ebc__formGroup">
-                <textarea placeholder="Message (Optional)" rows="2"></textarea>
-              </div>
-              <button type="submit" className="ebc__modalSubmit">
-                Request Callback
-              </button>
-            </form>
+          <form className="ebc__modalForm" onSubmit={handleContactSubmit}>
+
+  <div className="ebc__formGroup">
+    <input
+      type="text"
+      placeholder="Full Name"
+      required
+      value={contactData.name}
+      onChange={(e) => setContactData({...contactData, name: e.target.value})}
+    />
+  </div>
+
+  <div className="ebc__formGroup">
+    <input
+      type="tel"
+      placeholder="Mobile Number"
+      required
+      value={contactData.phone}
+      onChange={(e) => setContactData({...contactData, phone: e.target.value})}
+    />
+  </div>
+
+  <div className="ebc__formGroup">
+    <input
+      type="text"
+      placeholder="City"
+      required
+      value={contactData.city}
+      onChange={(e) => setContactData({...contactData, city: e.target.value})}
+    />
+  </div>
+
+  <div className="ebc__formGroup">
+    <select
+      required
+      value={contactData.requirementType}
+      onChange={(e) => setContactData({...contactData, requirementType: e.target.value})}
+    >
+      <option value="">Select Requirement</option>
+      <option>New Installation</option>
+      <option>Price Enquiry</option>
+      <option>Maintenance</option>
+      <option>Site Survey</option>
+    </select>
+  </div>
+
+  <div className="ebc__formGroup">
+    <textarea
+      placeholder="Message (Optional)"
+      rows="2"
+      value={contactData.message}
+      onChange={(e) => setContactData({...contactData, message: e.target.value})}
+    />
+  </div>
+
+  <button type="submit" className="ebc__modalSubmit" disabled={loading}>
+    {loading ? "Submitting..." : "Request Callback"}
+  </button>
+
+  {success && <p style={{color:"green", textAlign:"center"}}>✅ Submitted Successfully!</p>}
+
+</form>
+
           </div>
         </div>
       )}
